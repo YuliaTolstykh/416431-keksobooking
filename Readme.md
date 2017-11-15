@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юлия Толстых](https://up.htmlacademy.ru/javascript/11/user/416431).
-* Наставник: `Неизвестно`.
+* Наставник: [Филипп Шамсиев](https://up.htmlacademy.ru/adaptive/12/user/70260).
 
 ---
 
