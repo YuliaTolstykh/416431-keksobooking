@@ -36,3 +36,6 @@ for (var i = 0; i <= 8; i++) {
   };
 }
 console.log(advert);
+var aA = document.querySelector('.map');
+aA.classList.remove('map--faded');
+console.log(aA.className);
