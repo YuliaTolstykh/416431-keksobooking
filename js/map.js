@@ -14,13 +14,13 @@ var getLength = function (arr) {
 };
 // var k = [1, 2, 3, 4, 5, 6, 7, 8];
 var advert = [];
-for (var i = 0; i <= 8; i++) {
+for (var i = 0; i < 8; i++) {
   var attributes = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   advert[i] = {
-    'author': 'img/avatars/user{{0' + getRandomInt(0, 8) + '}}.png',
+    'author': 'img/avatars/user0' + getRandomInt(1, 9) + '.png',
     'offer': {
       'title': titles[getRandomInt(0, 8)],
-      'address': '{{location.x}}, {{location.y}}',
+      'address': 'location.x, location.y',
       'price': getRandomInt(1000, 1000000),
       'type': types[getRandomInt(0, 2)],
       'rooms': getRandomInt(1, 5),
@@ -38,7 +38,37 @@ for (var i = 0; i <= 8; i++) {
   };
 }
 console.log(advert);
-console.log(advert);
-var aA = document.querySelector('.map');
-aA.classList.remove('map--faded');
-console.log(aA.className);
+var map = document.querySelector('.map');
+map.classList.remove('map--faded');
+var advertItem = document.querySelector('.map__pin');
+// var renderWizard = function (wizard) {
+//   var wizardElement = similarWizardTemplate.cloneNode(true);
+//
+//   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+//   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+//
+//   return wizardElement;
+// }
+//
+// var fragment = document.createDocumentFragment();
+// for (var i = 0; i < wizards.length; i++) {
+//   fragment.appendChild(renderWizard(wizards[i]));
+// }
+// similarListElement.appendChild(fragment);
+//
+// userDialog.querySelector('.setup-similar').classList.remove('hidden');
+var locateAdvert = function (ad) {
+  var similarAdvert = advertItem.cloneNode(true);
+  var avatar = similarAdvert.querySelector('img');
+  avatar.setAttribute('src', ad.author);
+  var positionX = ad.location.x - 32;
+  var positionY = ad.location.y - 36;
+  var position = 'left: ' + positionX + 'px; top: ' + positionY + 'px;';
+  similarAdvert.setAttribute('style', position);
+  return similarAdvert;
+};
+var fragment = document.createDocumentFragment();
+for (var j = 0; j < advert.length; j++) {
+  fragment.appendChild(locateAdvert(advert[j]));
+}
+advertItem.parentElement.appendChild(fragment);
