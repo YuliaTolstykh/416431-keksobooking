@@ -90,14 +90,17 @@ for (var j = 0; j < advert.length; j++) {
 }
 advertItem.parentElement.appendChild(fragment);
 var similarAdvertTemplate = document.querySelector('template').content;
-var advertElement = similarAdvertTemplate.cloneNode(true);
-advertElement.querySelector('h3').textContent = advert[0].offer.title;
-advertElement.querySelector('p').textContent = advert[0].offer.address;
-advertElement.querySelector('.popup__price').innerHTML = advert[0].offer.price + ' &#x20bd;/ночь';
-advertElement.querySelector('h4').textContent = offerType();
-advertElement.querySelectorAll('p')[2].textContent = advert[0].offer.rooms + ' для ' + advert[0].offer.guests + ' гостей';
-advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert[0].offer.checkin + ', выезд до ' + advert[0].offer.checkout;
-advertElement.querySelector('.popup__features').innerHTML = textHTML(advert[0].offer.features).join('');
-advertElement.querySelectorAll('p')[4].textContent = advert[0].offer.description;
-advertElement.querySelector('.popup__avatar').setAttribute('src', advert[0].author.avatar);
-map.appendChild(advertElement);
+var advertElement = function (arr) {
+  advertElement = similarAdvertTemplate.cloneNode(true);
+  advertElement.querySelector('h3').textContent = arr.offer.title;
+  advertElement.querySelector('p').textContent = arr.offer.address;
+  advertElement.querySelector('.popup__price').innerHTML = arr.offer.price + ' &#x20bd;/ночь';
+  advertElement.querySelector('h4').textContent = offerType();
+  advertElement.querySelectorAll('p')[2].textContent = arr.offer.rooms + ' для ' + arr.offer.guests + ' гостей';
+  advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  advertElement.querySelector('.popup__features').innerHTML = textHTML(arr.offer.features).join('');
+  advertElement.querySelectorAll('p')[4].textContent = arr.offer.description;
+  advertElement.querySelector('.popup__avatar').setAttribute('src', arr.author.avatar);
+  return advertElement;
+};
+map.appendChild(advertElement(advert[0]));
