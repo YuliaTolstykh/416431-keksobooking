@@ -7,10 +7,11 @@ var sample = function (vector, n) {
   var number = vector.splice(getRandomInt(0, n), 1);
   return number;
 };
+var k = [1, 2, 3, 4, 5, 6, 7, 8];
 var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var types = ['flat', 'house', 'bungalo'];
 var times = ['12:00', '13:00', '14:00'];
-var getLength = function (arr) {
+var getFeatures = function (arr) {
   var value = arr.length + 1;
   var attributes = [];
   var pp = [];
@@ -22,7 +23,6 @@ var getLength = function (arr) {
   } while (p < pp[0]);
   return attributes;
 };
-var k = [1, 2, 3, 4, 5, 6, 7, 8];
 var advert = [];
 for (var i = 7; i >= 0; i--) {
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -39,7 +39,7 @@ for (var i = 7; i >= 0; i--) {
       'guests': getRandomInt(1, 100),
       'checkin': times[getRandomInt(0, 3)],
       'checkout': times[getRandomInt(0, 3)],
-      'features': getLength(features),
+      'features': getFeatures(features),
       'description': '',
       'photos': []
     },
@@ -49,9 +49,6 @@ for (var i = 7; i >= 0; i--) {
     }
   };
 }
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-var advertItem = document.querySelector('.map__pin');
 var locateAdvert = function (ad) {
   var similarAdvert = advertItem.cloneNode(true);
   var avatar = similarAdvert.querySelector('img');
@@ -62,16 +59,6 @@ var locateAdvert = function (ad) {
   similarAdvert.setAttribute('style', position);
   return similarAdvert;
 };
-var fragment = document.createDocumentFragment();
-for (var j = 0; j < advert.length; j++) {
-  fragment.appendChild(locateAdvert(advert[j]));
-}
-advertItem.parentElement.appendChild(fragment);
-var similarAdvertTemplate = document.querySelector('template').content;
-var advertElement = similarAdvertTemplate.cloneNode(true);
-advertElement.querySelector('h3').textContent = advert[0].offer.title;
-advertElement.querySelector('p').textContent = advert[0].offer.address;
-advertElement.querySelector('.popup__price').innerHTML = advert[0].offer.price + ' &#x20bd;/ночь';
 var offerType = function () {
   if (advert[0].offer.type === 'flat') {
     offerType = 'Квартира';
@@ -84,17 +71,33 @@ var offerType = function () {
   }
   return offerType;
 };
+var textHTML = function (arr) {
+  var featuresLength = arr;
+  textHTML = [];
+  var n = 0;
+  while (n < featuresLength.length) {
+    textHTML[n] = '<li class="feature feature--' + featuresLength[n] + '"></li>';
+    n++;
+  }
+  return textHTML;
+};
+var map = document.querySelector('.map');
+map.classList.remove('map--faded');
+var advertItem = document.querySelector('.map__pin');
+var fragment = document.createDocumentFragment();
+for (var j = 0; j < advert.length; j++) {
+  fragment.appendChild(locateAdvert(advert[j]));
+}
+advertItem.parentElement.appendChild(fragment);
+var similarAdvertTemplate = document.querySelector('template').content;
+var advertElement = similarAdvertTemplate.cloneNode(true);
+advertElement.querySelector('h3').textContent = advert[0].offer.title;
+advertElement.querySelector('p').textContent = advert[0].offer.address;
+advertElement.querySelector('.popup__price').innerHTML = advert[0].offer.price + ' &#x20bd;/ночь';
 advertElement.querySelector('h4').textContent = offerType();
 advertElement.querySelectorAll('p')[2].textContent = advert[0].offer.rooms + ' для ' + advert[0].offer.guests + ' гостей';
 advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert[0].offer.checkin + ', выезд до ' + advert[0].offer.checkout;
-var featuresLength = advert[0].offer.features;
-var textHTML = [];
-var n = 0;
-while (n < featuresLength.length) {
-  textHTML[n] = '<li class="feature feature--' + featuresLength[n] + '"></li>';
-  n++;
-}
-advertElement.querySelector('.popup__features').innerHTML = textHTML.join('');
+advertElement.querySelector('.popup__features').innerHTML = textHTML(advert[0].offer.features).join('');
 advertElement.querySelectorAll('p')[4].textContent = advert[0].offer.description;
 advertElement.querySelector('.popup__avatar').setAttribute('src', advert[0].author.avatar);
 map.appendChild(advertElement);
