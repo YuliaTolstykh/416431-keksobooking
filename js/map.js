@@ -2,44 +2,51 @@
 
 var WIDTH_MARK_MAP = 32;
 var HEIGHT_MARK_MAP = 36;
+var TOTAL_NUMBER_ADS = 8;
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 var selectRandomElement = function (vector, n) {
   return vector.splice(getRandomInt(0, n), 1);
 };
-var numberSeries = [1, 2, 3, 4, 5, 6, 7, 8];
+var createNumberSeries = function (number) {
+  var series = [];
+  for (var i = 0; i < number; i++) {
+    series[i] = i + 1;
+  }
+  return series;
+};
+var numberSeries = createNumberSeries(TOTAL_NUMBER_ADS);
 var adTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var adTypes = ['flat', 'house', 'bungalo'];
 var adTimes = ['12:00', '13:00', '14:00'];
-var getFeatures = function (arr) {
+var getFeatures = function (arr, n) {
   var attributes = [];
-  var temporaryArray = [];
   var count = 0;
   do {
-    temporaryArray[count] = getRandomInt(1, arr.length + 1);
     attributes[count] = selectRandomElement(arr, arr.length - count);
     count++;
-  } while (count < temporaryArray[0]);
+  } while (count < n);
   return attributes;
 };
 var ads = [];
-for (var i = 7; i >= 0; i--) {
+for (var i = TOTAL_NUMBER_ADS - 1; i >= 0; i--) {
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var featuresLength = getRandomInt(1, features.length + 1);
   ads[i] = {
     'author': {
       'avatar': 'img/avatars/user0' + selectRandomElement(numberSeries, i) + '.png'
     },
     'offer': {
       'title': selectRandomElement(adTitles, i),
-      'address': [],
+      'address': '',
       'price': getRandomInt(1000, 1000000),
       'type': adTypes[getRandomInt(0, 3)],
       'rooms': getRandomInt(1, 6),
       'guests': getRandomInt(1, 100),
       'checkin': adTimes[getRandomInt(0, 3)],
       'checkout': adTimes[getRandomInt(0, 3)],
-      'features': getFeatures(features),
+      'features': getFeatures(features, featuresLength),
       'description': '',
       'photos': []
     },
@@ -48,7 +55,7 @@ for (var i = 7; i >= 0; i--) {
       'y': getRandomInt(100, 500)
     }
   };
-  ads[i].offer.address = [ads[i].location.x, ads[i].location.y];
+  ads[i].offer.address = ads[i].location.x.toString() + ', ' + ads[i].location.y.toString();
 }
 var locateAds = function (ad) {
   var similarAds = adsItem.cloneNode(true);
