@@ -9,14 +9,6 @@ var getRandomInt = function (min, max) {
 var selectRandomElement = function (vector, n) {
   return vector.splice(getRandomInt(0, n), 1);
 };
-var createNumberSeries = function (number) {
-  var series = [];
-  for (var i = 0; i < number; i++) {
-    series[i] = i + 1;
-  }
-  return series;
-};
-var numberSeries = createNumberSeries(TOTAL_NUMBER_ADS);
 var adTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var adTypes = ['flat', 'house', 'bungalo'];
 var adTimes = ['12:00', '13:00', '14:00'];
@@ -30,12 +22,12 @@ var getFeatures = function (arr, n) {
   return attributes;
 };
 var ads = [];
-for (var i = TOTAL_NUMBER_ADS - 1; i >= 0; i--) {
+for (var i = 0; i < TOTAL_NUMBER_ADS; i++) {
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var featuresLength = getRandomInt(1, features.length + 1);
   ads[i] = {
     'author': {
-      'avatar': 'img/avatars/user0' + selectRandomElement(numberSeries, i) + '.png'
+      'avatar': 'img/avatars/user0' + (i + 1) + '.png'
     },
     'offer': {
       'title': selectRandomElement(adTitles, i),
