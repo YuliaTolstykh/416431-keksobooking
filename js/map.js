@@ -83,16 +83,15 @@ var getTextHTML = function (arr) {
   return textHTML;
 };
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 var adsItem = document.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 for (var j = 0; j < ads.length; j++) {
   fragment.appendChild(locateAds(ads[j]));
 }
-adsItem.parentElement.appendChild(fragment);
-var similaradsTemplate = document.querySelector('template').content;
+console.log(fragment)
+var similarAdsTemplate = document.querySelector('template').content;
 var createAdsElement = function (arr) {
-  createAdsElement = similaradsTemplate.cloneNode(true);
+  createAdsElement = similarAdsTemplate.cloneNode(true);
   createAdsElement.querySelector('h3').textContent = arr.offer.title;
   createAdsElement.querySelector('p').textContent = arr.offer.address;
   createAdsElement.querySelector('.popup__price').innerHTML = arr.offer.price + ' &#x20bd;/ночь';
@@ -104,4 +103,37 @@ var createAdsElement = function (arr) {
   createAdsElement.querySelector('.popup__avatar').setAttribute('src', arr.author.avatar);
   return createAdsElement;
 };
-map.appendChild(createAdsElement(ads[0]));
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var form = document.querySelector('.notice__form');
+var formFieldset = form.querySelectorAll('fieldset');
+var addDisabled = function (arr) {
+  var n = 0;
+  while (n < arr.length) {
+    if (arr[n].hasAttribute('disabled') === true) {
+      arr[n].removeAttribute('disabled');
+    } else {
+      arr[n].setAttribute('disabled', 'disabled');
+    }
+    n++;
+  }
+  return arr;
+};
+addDisabled(formFieldset);
+
+// var ppp = [];
+var onMapPinMainMouseup = function () {
+  map.classList.remove('map--faded');
+  form.classList.remove('notice__form--disabled');
+  adsItem.parentElement.appendChild(fragment);
+  addDisabled(formFieldset);
+  console.log(document.querySelectorAll('.map__pin'))
+  var mapPins = document.querySelectorAll('.map__pin');
+  mapPins[3].classList.add('map__pin--active');
+};
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+// map.appendChild(createAdsElement(ads[0]));
+var onMapPinClick = function () {
+  if
+};
+onMapPinClick();
