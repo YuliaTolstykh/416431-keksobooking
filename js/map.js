@@ -3,6 +3,7 @@
 var WIDTH_MARK_MAP = 32;
 var HEIGHT_MARK_MAP = 36;
 var TOTAL_NUMBER_ADS = 8;
+var ESC_KEYCODE = 27;
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -156,7 +157,6 @@ var onMapPinClick = function () {
         map.removeChild(popup);
       }
     }
-    // console.log('Hello, index! ' + indexEvent);
     if (indexEvent !== 0 && mapPins[indexEvent].classList.contains('map__pin--active') !== true) {
       mapPins[indexEvent].classList.add('map__pin--active');
       map.appendChild(createAdsElement(ads[indexEvent - 1]));
@@ -165,6 +165,7 @@ var onMapPinClick = function () {
         mapPins[indexEvent].classList.remove('map__pin--active');
         popup = map.querySelector('.popup');
         map.removeChild(popup);
+        return popup;
       });
     }
     // if (index === 0) {
@@ -176,3 +177,10 @@ var onMapPinMainMouseupPass = function () {
   onMapPinMainMouseup(insertMapPin);
 };
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    mapPins[indexEvent].classList.remove('map__pin--active');
+    var popupEsc = map.querySelector('.popup');
+    map.removeChild(popupEsc);
+  }
+});
