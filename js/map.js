@@ -88,22 +88,22 @@ var fragment = document.createDocumentFragment();
 for (var j = 0; j < ads.length; j++) {
   fragment.appendChild(locateAds(ads[j]));
 }
-console.log(fragment)
 var similarAdsTemplate = document.querySelector('template').content;
 var createAdsElement = function (arr) {
-  createAdsElement = similarAdsTemplate.cloneNode(true);
-  createAdsElement.querySelector('h3').textContent = arr.offer.title;
-  createAdsElement.querySelector('p').textContent = arr.offer.address;
-  createAdsElement.querySelector('.popup__price').innerHTML = arr.offer.price + ' &#x20bd;/ночь';
-  createAdsElement.querySelector('h4').textContent = getType(arr.offer.type);
-  createAdsElement.querySelectorAll('p')[2].textContent = arr.offer.rooms + ' для ' + arr.offer.guests + ' гостей';
-  createAdsElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
-  createAdsElement.querySelector('.popup__features').innerHTML = getTextHTML(arr.offer.features).join('');
-  createAdsElement.querySelectorAll('p')[4].textContent = arr.offer.description;
-  createAdsElement.querySelector('.popup__avatar').setAttribute('src', arr.author.avatar);
-  return createAdsElement;
+  var adsElement = similarAdsTemplate.cloneNode(true);
+  adsElement.querySelector('h3').textContent = arr.offer.title;
+  adsElement.querySelector('p').textContent = arr.offer.address;
+  adsElement.querySelector('.popup__price').innerHTML = arr.offer.price + ' &#x20bd;/ночь';
+  adsElement.querySelector('h4').textContent = getType(arr.offer.type);
+  adsElement.querySelectorAll('p')[2].textContent = arr.offer.rooms + ' для ' + arr.offer.guests + ' гостей';
+  adsElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  adsElement.querySelector('.popup__features').innerHTML = getTextHTML(arr.offer.features).join('');
+  adsElement.querySelectorAll('p')[4].textContent = arr.offer.description;
+  adsElement.querySelector('.popup__avatar').setAttribute('src', arr.author.avatar);
+  var templateButton = adsElement.querySelectorAll('button');
+  templateButton[1].parentNode.removeChild(templateButton[1]);
+  return adsElement;
 };
-
 var mapPinMain = document.querySelector('.map__pin--main');
 var form = document.querySelector('.notice__form');
 var formFieldset = form.querySelectorAll('fieldset');
@@ -120,20 +120,64 @@ var addDisabled = function (arr) {
   return arr;
 };
 addDisabled(formFieldset);
-
-// var ppp = [];
-var onMapPinMainMouseup = function () {
+var onMapPinMainMouseup = function (callback) {
   map.classList.remove('map--faded');
   form.classList.remove('notice__form--disabled');
-  adsItem.parentElement.appendChild(fragment);
   addDisabled(formFieldset);
-  console.log(document.querySelectorAll('.map__pin'))
-  var mapPins = document.querySelectorAll('.map__pin');
-  mapPins[3].classList.add('map__pin--active');
+  if (typeof callback === 'function') {
+    callback();
+  }
 };
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
-// map.appendChild(createAdsElement(ads[0]));
+var mapPins = [];
+var insertMapPin = function () {
+  var mapPinsContainer = document.querySelector('.map__pins');
+  adsItem.parentElement.appendChild(fragment);
+  mapPinsContainer.addEventListener('click', onMapPinClick);
+};
+var indexEvent;
 var onMapPinClick = function () {
-  if
+  var mapPinElements = document.querySelectorAll('.map__pin');
+  mapPins = [].slice.call(mapPinElements);
+  var target = event.target;
+  if (target.tagName === 'BUTTON' || target.tagName === 'IMG') {
+    var index = 0;
+    while (index < mapPins.length) {
+      if (mapPins[index] === target || mapPins[index] === target.parentElement) {
+        indexEvent = index;
+        break;
+      }
+      index++;
+    }
+    var indexSort = 0;
+    while (indexSort++ < mapPins.length - 1) {
+      if (indexSort !== indexEvent && mapPins[indexSort].classList.contains('map__pin--active') === true) {
+        mapPins[indexSort].classList.remove('map__pin--active');
+        var popup = map.querySelector('.popup');
+        map.removeChild(popup);
+      }
+    }
+    // console.log('Hello, index! ' + indexEvent);
+    if (indexEvent !== 0 && mapPins[indexEvent].classList.contains('map__pin--active') !== true) {
+      mapPins[indexEvent].classList.add('map__pin--active');
+      map.appendChild(createAdsElement(ads[indexEvent - 1]));
+      var popupClose = document.querySelector('.popup__close');
+      popupClose.addEventListener('click', function () {
+        mapPins[indexEvent].classList.remove('map__pin--active');
+        popup = map.querySelector('.popup');
+        map.removeChild(popup);
+      });
+    }
+    if (index === 0) {
+      alert('Hello!');
+    }
+  } //else {
+  //   console.log('By!');
+  // }
 };
-onMapPinClick();
+// var openPopup = function () {
+//   console.log('WOW!' + x);
+// }
+var onMapPinMainMouseupPass = function () {
+  onMapPinMainMouseup(insertMapPin);
+};
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
