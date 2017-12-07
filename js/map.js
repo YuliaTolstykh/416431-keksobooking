@@ -167,16 +167,11 @@ var onMapPinClick = function () {
         map.removeChild(popup);
       });
     }
-    if (index === 0) {
-      alert('Hello!');
-    }
-  } //else {
-  //   console.log('By!');
-  // }
+    // if (index === 0) {
+    //   alert('Hello!');
+    // }
+  }
 };
-// var openPopup = function () {
-//   console.log('WOW!' + x);
-// }
 var onMapPinMainMouseupPass = function () {
   onMapPinMainMouseup(insertMapPin);
 };
