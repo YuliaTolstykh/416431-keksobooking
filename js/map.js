@@ -147,8 +147,7 @@ var onMapPinClick = function () {
         break;
       }
     }
-    // var indexSort = 0;
-    for (index = 0; index < mapPins.length - 1; index++) {
+    for (index = 0; index < mapPins.length; index++) {
       if (index !== indexEvent && mapPins[index].classList.contains('map__pin--active') === true) {
         removePopup(mapPins[index]);
       }
