@@ -31,7 +31,7 @@ for (var i = 0; i < TOTAL_NUMBER_ADS; i++) {
       'avatar': 'img/avatars/user0' + (i + 1) + '.png'
     },
     'offer': {
-      'title': selectRandomElement(adTitles, i),
+      'title': selectRandomElement(adTitles, Math.abs(i - TOTAL_NUMBER_ADS)),
       'address': '',
       'price': getRandomInt(1000, 1000000),
       'type': adTypes[getRandomInt(0, 3)],
@@ -49,6 +49,7 @@ for (var i = 0; i < TOTAL_NUMBER_ADS; i++) {
     }
   };
   ads[i].offer.address = ads[i].location.x.toString() + ', ' + ads[i].location.y.toString();
+  console.log(ads[i].offer.title, i)
 }
 var locateAds = function (ad) {
   var similarAds = adsItem.cloneNode(true);
@@ -135,11 +136,12 @@ var insertMapPin = function () {
   adsItem.parentElement.appendChild(fragment);
   mapPinsContainer.addEventListener('click', onMapPinClick);
 };
+var target;
 var indexEvent;
 var onMapPinClick = function () {
   var mapPinElements = document.querySelectorAll('.map__pin');
   mapPins = [].slice.call(mapPinElements);
-  var target = event.target;
+  target = event.target;
   if (target.tagName === 'BUTTON' || target.tagName === 'IMG') {
     var index = 0;
     while (index < mapPins.length) {
@@ -165,7 +167,6 @@ var onMapPinClick = function () {
         mapPins[indexEvent].classList.remove('map__pin--active');
         popup = map.querySelector('.popup');
         map.removeChild(popup);
-        return popup;
       });
     }
     // if (index === 0) {
@@ -173,10 +174,6 @@ var onMapPinClick = function () {
     // }
   }
 };
-var onMapPinMainMouseupPass = function () {
-  onMapPinMainMouseup(insertMapPin);
-};
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     mapPins[indexEvent].classList.remove('map__pin--active');
@@ -184,3 +181,7 @@ document.addEventListener('keydown', function (evt) {
     map.removeChild(popupEsc);
   }
 });
+var onMapPinMainMouseupPass = function () {
+  onMapPinMainMouseup(insertMapPin);
+};
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
