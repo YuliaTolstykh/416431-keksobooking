@@ -135,27 +135,22 @@ var insertMapPin = function () {
   adsItem.parentElement.appendChild(fragment);
   mapPinsContainer.addEventListener('click', onMapPinClick);
 };
-var target;
 var indexEvent;
 var onMapPinClick = function () {
   var mapPinElements = document.querySelectorAll('.map__pin');
   mapPins = [].slice.call(mapPinElements);
-  target = event.target;
+  var target = event.target;
   if (target.tagName === 'BUTTON' || target.tagName === 'IMG') {
-    var index = 0;
-    while (index < mapPins.length) {
+    for (var index = 0; index < mapPins.length; index++) {
       if (mapPins[index] === target || mapPins[index] === target.parentElement) {
         indexEvent = index;
         break;
       }
-      index++;
     }
-    var indexSort = 0;
-    while (indexSort++ < mapPins.length - 1) {
-      if (indexSort !== indexEvent && mapPins[indexSort].classList.contains('map__pin--active') === true) {
-        mapPins[indexSort].classList.remove('map__pin--active');
-        var popup = map.querySelector('.popup');
-        map.removeChild(popup);
+    // var indexSort = 0;
+    for (index = 0; index < mapPins.length - 1; index++) {
+      if (index !== indexEvent && mapPins[index].classList.contains('map__pin--active') === true) {
+        removePopup(mapPins[index]);
       }
     }
     if (indexEvent !== 0 && mapPins[indexEvent].classList.contains('map__pin--active') !== true) {
@@ -163,9 +158,7 @@ var onMapPinClick = function () {
       map.appendChild(createAdsElement(ads[indexEvent - 1]));
       var popupClose = document.querySelector('.popup__close');
       popupClose.addEventListener('click', function () {
-        mapPins[indexEvent].classList.remove('map__pin--active');
-        popup = map.querySelector('.popup');
-        map.removeChild(popup);
+        removePopup(mapPins[indexEvent]);
       });
     }
     // if (index === 0) {
@@ -175,11 +168,14 @@ var onMapPinClick = function () {
 };
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    mapPins[indexEvent].classList.remove('map__pin--active');
-    var popupEsc = map.querySelector('.popup');
-    map.removeChild(popupEsc);
+    removePopup(mapPins[indexEvent]);
   }
 });
+var removePopup = function (arg) {
+  arg.classList.remove('map__pin--active');
+  var popup = map.querySelector('.popup');
+  map.removeChild(popup);
+};
 var onMapPinMainMouseupPass = function () {
   onMapPinMainMouseup(insertMapPin);
 };
