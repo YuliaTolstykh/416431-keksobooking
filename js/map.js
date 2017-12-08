@@ -148,7 +148,7 @@ var onMapPinClick = function () {
       }
     }
     removePinActive(mapPins, indexEvent);
-    setPinActive(mapPins, indexEvent)
+    setPinActive(mapPins, indexEvent);
     // if (index === 0) {
     //   alert('Hello!');
     // }
