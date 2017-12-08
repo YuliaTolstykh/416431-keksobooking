@@ -49,7 +49,6 @@ for (var i = 0; i < TOTAL_NUMBER_ADS; i++) {
     }
   };
   ads[i].offer.address = ads[i].location.x.toString() + ', ' + ads[i].location.y.toString();
-  console.log(ads[i].offer.title, i)
 }
 var locateAds = function (ad) {
   var similarAds = adsItem.cloneNode(true);
