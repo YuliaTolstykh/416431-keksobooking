@@ -147,19 +147,8 @@ var onMapPinClick = function () {
         break;
       }
     }
-    for (index = 0; index < mapPins.length; index++) {
-      if (index !== indexEvent && mapPins[index].classList.contains('map__pin--active') === true) {
-        removePopup(mapPins[index]);
-      }
-    }
-    if (indexEvent !== 0 && mapPins[indexEvent].classList.contains('map__pin--active') !== true) {
-      mapPins[indexEvent].classList.add('map__pin--active');
-      map.appendChild(createAdsElement(ads[indexEvent - 1]));
-      var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('click', function () {
-        removePopup(mapPins[indexEvent]);
-      });
-    }
+    removePinActive(mapPins, indexEvent);
+    setPinActive(mapPins, indexEvent)
     // if (index === 0) {
     //   alert('Hello!');
     // }
@@ -170,6 +159,23 @@ document.addEventListener('keydown', function (evt) {
     removePopup(mapPins[indexEvent]);
   }
 });
+var setPinActive = function (vector, n) {
+  if (n !== 0 && vector[n].classList.contains('map__pin--active') !== true) {
+    vector[n].classList.add('map__pin--active');
+    map.appendChild(createAdsElement(ads[n - 1]));
+    var popupClose = document.querySelector('.popup__close');
+    popupClose.addEventListener('click', function () {
+      removePopup(vector[n]);
+    });
+  }
+};
+var removePinActive = function (vector, n) {
+  for (var index = 0; index < vector.length; index++) {
+    if (index !== n && vector[index].classList.contains('map__pin--active') === true) {
+      removePopup(vector[index]);
+    }
+  }
+};
 var removePopup = function (arg) {
   arg.classList.remove('map__pin--active');
   var popup = map.querySelector('.popup');
