@@ -109,14 +109,16 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var form = document.querySelector('.notice__form');
 var formFieldset = form.querySelectorAll('fieldset');
 var addDisabled = function (arr) {
-  var n = 0;
-  while (n < arr.length) {
+  for (var n = 0; n < arr.length; n++) {
+    arr[n].setAttribute('disabled', 'disabled');
+  }
+  return arr;
+};
+var removeDisabled = function (arr) {
+  for (var n = 0; n < arr.length; n++) {
     if (arr[n].hasAttribute('disabled') === true) {
       arr[n].removeAttribute('disabled');
-    } else {
-      arr[n].setAttribute('disabled', 'disabled');
     }
-    n++;
   }
   return arr;
 };
@@ -124,7 +126,7 @@ addDisabled(formFieldset);
 var onMapPinMainMouseup = function (callback) {
   map.classList.remove('map--faded');
   form.classList.remove('notice__form--disabled');
-  addDisabled(formFieldset);
+  removeDisabled(formFieldset);
   if (typeof callback === 'function') {
     callback();
   }
