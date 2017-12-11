@@ -5,11 +5,11 @@
   var maxLengthTitle = 100;
   var minPrice = 0;
   var maxPrice = 1000000;
-  var titleInput = document.getElementById('title');
-  var addressInput = document.getElementById('address');
-  var priceInput = document.getElementById('price');
-  var mapPin = document.querySelector('.map__pin');
   var form = document.forms[1];
+  var titleInput = form.elements.title;
+  var addressInput = form.elements.address;
+  var priceInput = form.elements.price;
+  var mapPin = document.querySelector('.map__pin');
   var selectTimein = form.elements.timein;
   var selectTimeout = form.elements.timeout;
   var selectRooms = form.elements.rooms;
