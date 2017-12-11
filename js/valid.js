@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var minLengthTitle = 30;
+  var maxLengthTitle = 100;
+  var minPrice = 0;
+  var maxPrice = 1000000;
   var titleInput = document.getElementById('title');
   var addressInput = document.getElementById('address');
   var priceInput = document.getElementById('price');
@@ -11,25 +15,21 @@
   var selectRooms = form.elements.rooms;
   var selectCapacity = form.elements.capacity;
   var selectType = form.elements.type;
-  var minPrice;
+  var minPriceMessage;
+  var positionMainPin = mapPin.getBoundingClientRect().x.toFixed(1) + ' ' + mapPin.getBoundingClientRect().y.toFixed(1);
   var changeColor = function (atr) {
     atr.setAttribute('style', 'border-color: red');
   };
   var returnColor = function (atr) {
     atr.removeAttribute('style', 'border-color: red');
   };
-  var positionMainPin = mapPin.getBoundingClientRect().x.toFixed(1) + ' ' + mapPin.getBoundingClientRect().y.toFixed(1);
   addressInput.setAttribute('value', positionMainPin);
-
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
-      titleInput.setCustomValidity('');
       changeColor(titleInput);
     } else if (titleInput.validity.tooLong) {
-      titleInput.setCustomValidity('');
       changeColor(titleInput);
     } else if (titleInput.validity.valueMissing) {
-      titleInput.setCustomValidity('');
       changeColor(titleInput);
     } else {
       titleInput.setCustomValidity('');
@@ -47,13 +47,11 @@
   });
   priceInput.addEventListener('invalid', function () {
     if (priceInput.validity.rangeUnderflow) {
-      priceInput.setCustomValidity('Минимальная цена для ' + minPrice + ' руб.');
+      priceInput.setCustomValidity('Минимальная цена для ' + minPriceMessage + ' руб.');
       changeColor(priceInput);
     } else if (priceInput.validity.rangeOverflow) {
-      priceInput.setCustomValidity('');
       changeColor(priceInput);
     } else if (priceInput.validity.valueMissing) {
-      priceInput.setCustomValidity('');
       changeColor(priceInput);
     } else if (priceInput.validity.typeMismatch) {
       changeColor(priceInput);
@@ -88,19 +86,33 @@
     if (selectType.selectedIndex === 0) {
       priceInput.value = 1000;
       priceInput.min = 1000;
-      minPrice = 'квартиры 1000';
+      minPriceMessage = 'квартиры 1000';
     } else if (selectType.selectedIndex === 1) {
       priceInput.value = 0;
       priceInput.min = 0;
-      minPrice = 'лачуги 0';
+      minPriceMessage = 'лачуги 0';
     } else if (selectType.selectedIndex === 2) {
       priceInput.value = 5000;
       priceInput.min = 5000;
-      minPrice = 'дома 5000';
+      minPriceMessage = 'дома 5000';
     } else if (selectType.selectedIndex === 3) {
       priceInput.value = 10000;
       priceInput.min = 10000;
-      minPrice = 'дворца 10000';
+      minPriceMessage = 'дворца 10000';
     }
   }));
+  form.addEventListener('submit', function (event) {
+    if (titleInput.value.length < minLengthTitle || titleInput.value.length > maxLengthTitle) {
+      changeColor(titleInput);
+      event.preventDefault();
+    }
+    if (priceInput.min < minPrice || priceInput.max > maxPrice || priceInput.type !== 'number' || priceInput.value === '') {
+      changeColor(priceInput);
+      event.preventDefault();
+    }
+    if (addressInput.value !== positionMainPin) {
+      addressInput.value = positionMainPin;
+      addressInput.setAttribute('readonly');
+    }
+  });
 })();
