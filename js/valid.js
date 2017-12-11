@@ -18,6 +18,8 @@
   var returnColor = function (atr) {
     atr.removeAttribute('style', 'border-color: red');
   };
+  var positionMainPin = mapPin.getBoundingClientRect().x.toFixed(1) + ' ' + mapPin.getBoundingClientRect().y.toFixed(1);
+  addressInput.setAttribute('value', positionMainPin);
 
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
