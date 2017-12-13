@@ -16,31 +16,18 @@
       return similarAds;
     },
     insertMapPin: function (fragment) {
-      var mapPinsContainer = document.querySelector('.map__pins');
       adsItem.parentElement.appendChild(fragment);
-      return mapPinsContainer;
+      return adsItem.parentElement;
     },
-    setPinActive: function (vector, n, data) {
-      if (n !== 0 && vector[n].classList.contains('map__pin--active') !== true) {
-        vector[n].classList.add('map__pin--active');
-        window.map.appendChild(window.card.createAdsElement(data[n - 1]));
-        var popupClose = document.querySelector('.popup__close');
-        popupClose.addEventListener('click', function () {
-          window.pin.removePopup(vector[n]);
-        });
-      }
-    },
-    removePinActive: function (vector, n) {
-      for (var index = 0; index < vector.length; index++) {
-        if (index !== n && vector[index].classList.contains('map__pin--active') === true) {
-          window.pin.removePopup(vector[index]);
+    searchIndexEvent: function (mapPins) {
+      var target = event.target;
+      if (target.tagName === 'BUTTON' || target.tagName === 'IMG') {
+        for (var index = 0; index < mapPins.length; index++) {
+          if (mapPins[index] === target || mapPins[index] === target.parentElement) {
+            window.indexEvent = index;
+          }
         }
       }
-    },
-    removePopup: function (arg) {
-      arg.classList.remove('map__pin--active');
-      var popup = window.map.querySelector('.popup');
-      window.map.removeChild(popup);
     }
   };
-})();
+}());
