@@ -1,6 +1,6 @@
 'use strict';
 
-window.data = (function () {
+(function () {
   var TOTAL_NUMBER_ADS = 8;
   var getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -48,5 +48,5 @@ window.data = (function () {
     };
     ads[i].offer.address = ads[i].location.x.toString() + ', ' + ads[i].location.y.toString();
   }
-  return ads;
+  window.data = ads;
 })();
