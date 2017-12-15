@@ -9,21 +9,18 @@
   var titleInput = form.elements.title;
   var addressInput = form.elements.address;
   var priceInput = form.elements.price;
-  var mapPin = document.querySelector('.map__pin');
   var selectTimein = form.elements.timein;
   var selectTimeout = form.elements.timeout;
   var selectRooms = form.elements.rooms;
   var selectCapacity = form.elements.capacity;
   var selectType = form.elements.type;
   var minPriceMessage;
-  var positionMainPin = mapPin.getBoundingClientRect().x.toFixed(1) + ' ' + mapPin.getBoundingClientRect().y.toFixed(1);
   var changeColor = function (atr) {
     atr.setAttribute('style', 'border-color: red');
   };
   var returnColor = function (atr) {
     atr.removeAttribute('style', 'border-color: red');
   };
-  addressInput.setAttribute('value', positionMainPin);
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
       changeColor(titleInput);
@@ -60,7 +57,7 @@
       returnColor(priceInput);
     }
   });
-  mapPin.addEventListener('click', function () {
+  window.mapPinMain.addEventListener('click', function () {
     returnColor(titleInput);
     returnColor(priceInput);
   });
@@ -110,8 +107,13 @@
       changeColor(priceInput);
       event.preventDefault();
     }
-    if (addressInput.value !== positionMainPin) {
-      addressInput.value = positionMainPin;
+    // if (addressInput.value === 'undefined') {
+    //   addressInput.setAttribute('readonly');
+    //   changeColor(addressInput);
+    //   event.preventDefault();
+    // }
+    if (addressInput.value !== window.positionMainPin) {
+      addressInput.value = window.positionMainPin;
       addressInput.setAttribute('readonly');
     }
   });
