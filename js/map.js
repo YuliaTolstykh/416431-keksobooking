@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  window.WIDTH_MARK_MAP = 32;
+  window.HEIGHT_MARK_MAP = 42;
   var ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
   var fragment = document.createDocumentFragment();

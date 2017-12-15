@@ -107,11 +107,6 @@
       changeColor(priceInput);
       event.preventDefault();
     }
-    // if (addressInput.value === 'undefined') {
-    //   addressInput.setAttribute('readonly');
-    //   changeColor(addressInput);
-    //   event.preventDefault();
-    // }
     if (addressInput.value !== window.positionMainPin) {
       addressInput.value = window.positionMainPin;
       addressInput.setAttribute('readonly');
