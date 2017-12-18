@@ -58,7 +58,7 @@
   var setPinActive = function (vector, n) {
     if (n !== 0 && vector[n].classList.contains('map__pin--active') !== true) {
       vector[n].classList.add('map__pin--active');
-      map.appendChild(window.card.createAdsElement(window.data[n - 1]));
+      window.showCard(map, window.data[n - 1]);
       var popupClose = document.querySelector('.popup__close');
       popupClose.addEventListener('click', function () {
         removePopup(vector[n]);
