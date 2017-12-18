@@ -33,12 +33,28 @@
   window.syncValueWithPersons = function (field1, field2) {
     if (field1.selectedIndex === 0) {
       field2.options[2].selected = true;
+      field2.options[0].setAttribute('disabled', 'disabled');
+      field2.options[1].setAttribute('disabled', 'disabled');
+      field2.options[2].removeAttribute('disabled', 'disabled');
+      field2.options[3].setAttribute('disabled', 'disabled');
     } else if (field1.selectedIndex === 1) {
       field2.options[1].selected = true;
+      field2.options[0].setAttribute('disabled', 'disabled');
+      field2.options[1].removeAttribute('disabled', 'disabled');
+      field2.options[2].removeAttribute('disabled', 'disabled');
+      field2.options[3].setAttribute('disabled', 'disabled');
     } else if (field1.selectedIndex === 2) {
       field2.options[0].selected = true;
+      field2.options[0].removeAttribute('disabled', 'disabled');
+      field2.options[1].removeAttribute('disabled', 'disabled');
+      field2.options[2].removeAttribute('disabled', 'disabled');
+      field2.options[3].setAttribute('disabled', 'disabled');
     } else if (field1.selectedIndex === 3) {
       field2.options[3].selected = true;
+      field2.options[0].setAttribute('disabled', 'disabled');
+      field2.options[1].setAttribute('disabled', 'disabled');
+      field2.options[2].setAttribute('disabled', 'disabled');
+      field2.options[3].removeAttribute('disabled', 'disabled');
     }
   };
 }());
