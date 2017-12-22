@@ -118,18 +118,19 @@
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, minPricePerNight, apartmentType, syncValueWithMin);
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
-  form.addEventListener('submit', function (event) {
+  form.addEventListener('submit', function (evt) {
     if (titleInput.value.length < minLengthTitle || titleInput.value.length > maxLengthTitle) {
       changeColor(titleInput);
-      event.preventDefault();
+      evt.preventDefault();
     }
     if (priceInput.min < minPrice || priceInput.max > maxPrice || priceInput.type !== 'number' || priceInput.value === '') {
       changeColor(priceInput);
-      event.preventDefault();
+      evt.preventDefault();
     }
     if (addressInput.value !== window.positionMainPin) {
       addressInput.value = window.positionMainPin;
-      addressInput.setAttribute('readonly');
+      addressInput.setAttribute('readonly', 'readonly');
+      evt.preventDefault();
     }
   });
 })();

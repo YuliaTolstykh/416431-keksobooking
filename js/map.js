@@ -39,9 +39,25 @@
     onMapPinMainMouseup(window.pin.insertMapPin(fragment).addEventListener('click', onMapPinClick));
     window.mapPinMain.addEventListener('mousedown', window.pinMainHandle);
   };
-  window.data.forEach(function (item) {
-    fragment.appendChild(window.pin.locateAds(item));
+  var onError = function (message) {
+    var div = document.querySelector('h2');
+    div.textContent = message;
+  };
+  var onLoad = function (data) {
+    window.data = data;
+    window.data.forEach(function (item) {
+      fragment.appendChild(window.pin.locateAds(item));
+    });
+  };
+  var onSave = function () {
+    alert('Форма успешно заполнена');
+    form.reset();
+  };
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), onSave, onError);
+    evt.preventDefault();
   });
+  window.backend.load(onLoad, onError);
   window.mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
   var onMapPinClick = function () {
     var mapPinElements = document.querySelectorAll('.map__pin');
