@@ -40,8 +40,15 @@
     window.mapPinMain.addEventListener('mousedown', window.pinMainHandle);
   };
   var onError = function (message) {
-    var div = document.querySelector('h2');
+    var div = document.createElement('div');
+    div.style = 'z-index: 100; margin: 0 auto; padding: 150px 0; text-align: center; background-color: #f0f0ea;';
+    div.style.position = 'absolute';
+    div.style.top = '200px';
+    div.style.left = '5%';
+    div.style.right = '5%';
+    div.style.fontSize = '30px';
     div.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', div);
   };
   var onLoad = function (data) {
     window.data = data;
@@ -50,8 +57,20 @@
     });
   };
   var onSave = function () {
-    alert('Форма успешно заполнена');
+    var div = document.createElement('div');
+    div.style = 'z-index: 100; margin: 0 auto; padding: 150px 0; text-align: center; background-color: #fafafa;';
+    div.style.position = 'absolute';
+    div.style.top = '700px';
+    div.style.left = '20%';
+    div.style.right = '20%';
+    div.style.fontSize = '30px';
+    div.textContent = 'Форма успешно заполнена';
+    form.appendChild(div);
     form.reset();
+    var removeDiv = function () {
+      form.removeChild(div);
+    };
+    div.addEventListener('click', removeDiv);
   };
   form.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(form), onSave, onError);
