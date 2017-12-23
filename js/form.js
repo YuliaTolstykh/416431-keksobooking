@@ -5,15 +5,14 @@
   var maxLengthTitle = 100;
   var minPrice = 0;
   var maxPrice = 1000000;
-  var form = document.forms[1];
-  var titleInput = form.elements.title;
-  var addressInput = form.elements.address;
-  var priceInput = form.elements.price;
-  var selectTimein = form.elements.timein;
-  var selectTimeout = form.elements.timeout;
-  var selectRooms = form.elements.rooms;
-  var selectCapacity = form.elements.capacity;
-  var selectType = form.elements.type;
+  var titleInput = window.form.elements.title;
+  var addressInput = window.form.elements.address;
+  var priceInput = window.form.elements.price;
+  var selectTimein = window.form.elements.timein;
+  var selectTimeout = window.form.elements.timeout;
+  var selectRooms = window.form.elements.rooms;
+  var selectCapacity = window.form.elements.capacity;
+  var selectType = window.form.elements.type;
   var minPriceMessage;
   var minPricePerNight = [1000, 0, 5000, 10000];
   var apartmentType = ['квартиры', 'лачуги', 'дома', 'дворца'];
@@ -118,7 +117,8 @@
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, minPricePerNight, apartmentType, syncValueWithMin);
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
-  form.addEventListener('submit', function (evt) {
+
+  window.checkForm = function (evt, cbk) {
     if (titleInput.value.length < minLengthTitle || titleInput.value.length > maxLengthTitle) {
       changeColor(titleInput);
       evt.preventDefault();
@@ -127,10 +127,17 @@
       changeColor(priceInput);
       evt.preventDefault();
     }
+    if (addressInput.value === '' || addressInput.value === 'undefined') {
+      changeColor(addressInput);
+      evt.preventDefault();
+      return;
+    }
     if (addressInput.value !== window.positionMainPin) {
       addressInput.value = window.positionMainPin;
       addressInput.setAttribute('readonly', 'readonly');
       evt.preventDefault();
     }
-  });
+    evt.preventDefault();
+    cbk();
+  };
 })();

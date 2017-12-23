@@ -5,11 +5,11 @@
   var maxX = 1100;
   var minY = 100;
   var maxY = 500;
-  window.pinMainHandle = function () {
-    event.preventDefault();
+  window.pinMainHandle = function (evt) {
+    evt.preventDefault();
     var startCoords = {
-      x: event.clientX,
-      y: event.clientY
+      x: evt.clientX,
+      y: evt.clientY
     };
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
