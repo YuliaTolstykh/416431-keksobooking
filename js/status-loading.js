@@ -41,10 +41,6 @@
   var onError = function (message) {
     var div = drawMessageWindow(ERROR_COLOR, message, ERROR_TOP_INDENT, ERROR_INDENT, document.body);
     document.body.insertAdjacentElement('afterbegin', div);
-    // var removeDiv = function () {
-    //   document.body.removeChild(div);
-    // };
-    // div.addEventListener('click', removeDiv);
   };
   var onSave = function () {
     var div = drawMessageWindow(SAVE_COLOR, 'Форма успешно заполнена', SAVE_TOP_INDENT, SAVE_INDENT, window.form);
@@ -58,10 +54,6 @@
         item.removeAttribute('style', 'border-color: red');
       }
     });
-    // var removeDiv = function () {
-    //   window.form.removeChild(div);
-    // };
-    // div.addEventListener('click', removeDiv);
   };
   var sendForm = function () {
     window.backend.save(new FormData(window.form), onSave, onError);
