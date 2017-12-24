@@ -17,8 +17,8 @@
       adsItem.parentElement.appendChild(fragment);
       return adsItem.parentElement;
     },
-    searchIndexEvent: function (mapPins) {
-      var target = event.target;
+    searchIndexEvent: function (evt, mapPins) {
+      var target = evt.target;
       if (target.tagName === 'BUTTON' || target.tagName === 'IMG') {
         for (var index = 0; index < mapPins.length; index++) {
           if (mapPins[index] === target || mapPins[index] === target.parentElement) {
