@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var minX = 100;
-  var maxX = 1100;
-  var minY = 100;
-  var maxY = 500;
+  var MIN_X = 100;
+  var MAX_X = 1100;
+  var MIN_Y = 100;
+  var MAX_Y = 500;
   window.pinMainHandle = function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -26,11 +26,11 @@
       var pinMainShiftedY = window.mapPinMain.offsetTop - shift.y;
       var arrowPositionX = pinMainShiftedX;
       var arrowPositionY = pinMainShiftedY + window.HEIGHT_MARK_MAP;
-      if (arrowPositionX >= minX && arrowPositionX <= maxX && arrowPositionY >= minY && arrowPositionY <= maxY) {
+      if (arrowPositionX >= MIN_X && arrowPositionX <= MAX_X && arrowPositionY >= MIN_Y && arrowPositionY <= MAX_Y) {
         window.mapPinMain.style.left = (pinMainShiftedX) + 'px';
         window.mapPinMain.style.top = (pinMainShiftedY) + 'px';
         window.positionMainPin = 'x: ' + arrowPositionX + ', ' + 'y: ' + arrowPositionY;
-        document.forms[1].elements.address.setAttribute('value', window.positionMainPin);
+        window.addressInput.setAttribute('value', window.positionMainPin);
       }
     };
     var onMouseUp = function (upEvt) {

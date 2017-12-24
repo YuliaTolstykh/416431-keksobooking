@@ -21,15 +21,17 @@
       if (error) {
         onError(error);
       }
-      return onLoad(xhr.response);
+      if (xhr.response !== null) {
+        onLoad(xhr.response);
+      }
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
-    xhr.timeout = 5000;
+    xhr.timeout = 10000;
     return xhr;
   };
   window.backend = {
@@ -38,8 +40,8 @@
       xhr.open('GET', 'https://1510.dump.academy/keksobooking/data');
       xhr.send();
     },
-    save: function (data, onLoad, onError) {
-      var xhr = setup(onLoad, onError);
+    save: function (data, onSave, onError) {
+      var xhr = setup(onSave, onError);
       xhr.open('POST', 'https://1510.dump.academy/keksobooking');
       xhr.send(data);
     }

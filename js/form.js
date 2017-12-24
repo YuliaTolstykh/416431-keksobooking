@@ -6,7 +6,7 @@
   var minPrice = 0;
   var maxPrice = 1000000;
   var titleInput = window.form.elements.title;
-  var addressInput = window.form.elements.address;
+  window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
   var selectTimein = window.form.elements.timein;
   var selectTimeout = window.form.elements.timeout;
@@ -34,13 +34,13 @@
       returnColor(titleInput);
     }
   });
-  addressInput.addEventListener('invalid', function () {
-    if (addressInput.validity.valueMissing) {
-      addressInput.setCustomValidity('');
-      changeColor(addressInput);
+  window.addressInput.addEventListener('invalid', function () {
+    if (window.addressInput.validity.valueMissing) {
+      window.addressInput.setCustomValidity('');
+      changeColor(window.addressInput);
     } else {
-      addressInput.setCustomValidity('');
-      returnColor(addressInput);
+      window.addressInput.setCustomValidity('');
+      returnColor(window.addressInput);
     }
   });
   priceInput.addEventListener('invalid', function () {
@@ -127,14 +127,14 @@
       changeColor(priceInput);
       evt.preventDefault();
     }
-    if (addressInput.value === '' || addressInput.value === 'undefined') {
-      changeColor(addressInput);
+    if (window.addressInput.value === '' || window.addressInput.value === 'undefined') {
+      changeColor(window.addressInput);
       evt.preventDefault();
       return;
     }
-    if (addressInput.value !== window.positionMainPin) {
-      addressInput.value = window.positionMainPin;
-      addressInput.setAttribute('readonly', 'readonly');
+    if (window.addressInput.value !== window.positionMainPin) {
+      window.addressInput.value = window.positionMainPin;
+      window.addressInput.setAttribute('readonly', 'readonly');
       evt.preventDefault();
     }
     evt.preventDefault();
