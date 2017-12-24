@@ -9,7 +9,7 @@
   var SAVE_TOP_INDENT = 700;
   var SAVE_INDENT = 20;
   var SAVE_COLOR = '#fafafa;';
-  var drawMessageWindow = function (color, message, indentTop, indent) {
+  var drawMessageWindow = function (color, message, indentTop, indent, parentDiv) {
     var div = document.createElement('div');
     div.style = 'z-index: 100; margin: 0 auto; padding: 150px 0; text-align: center; background-color: ' + color;
     div.style.position = 'absolute';
@@ -18,6 +18,18 @@
     div.style.right = indent + '%';
     div.style.fontSize = '30px';
     div.textContent = message;
+    div.addEventListener('click', function () {
+      removeDiv(div);
+    });
+    var removeDiv = function () {
+      parentDiv.removeChild(div);
+    };
+    document.body.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        removeDiv(div);
+        evt.stopPropagation();
+      }
+    });
     return div;
   };
   var onLoad = function (data) {
@@ -27,10 +39,15 @@
     });
   };
   var onError = function (message) {
-    document.body.insertAdjacentElement('afterbegin', drawMessageWindow(ERROR_COLOR, message, ERROR_TOP_INDENT, ERROR_INDENT));
+    var div = drawMessageWindow(ERROR_COLOR, message, ERROR_TOP_INDENT, ERROR_INDENT, document.body);
+    document.body.insertAdjacentElement('afterbegin', div);
+    // var removeDiv = function () {
+    //   document.body.removeChild(div);
+    // };
+    // div.addEventListener('click', removeDiv);
   };
   var onSave = function () {
-    var div = drawMessageWindow(SAVE_COLOR, 'Форма успешно заполнена', SAVE_TOP_INDENT, SAVE_INDENT);
+    var div = drawMessageWindow(SAVE_COLOR, 'Форма успешно заполнена', SAVE_TOP_INDENT, SAVE_INDENT, window.form);
     window.form.appendChild(div);
     window.form.reset();
     window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
@@ -41,10 +58,10 @@
         item.removeAttribute('style', 'border-color: red');
       }
     });
-    var removeDiv = function () {
-      window.form.removeChild(div);
-    };
-    div.addEventListener('click', removeDiv);
+    // var removeDiv = function () {
+    //   window.form.removeChild(div);
+    // };
+    // div.addEventListener('click', removeDiv);
   };
   var sendForm = function () {
     window.backend.save(new FormData(window.form), onSave, onError);

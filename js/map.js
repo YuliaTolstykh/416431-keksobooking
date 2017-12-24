@@ -3,7 +3,7 @@
 (function () {
   window.WIDTH_MARK_MAP = 32;
   window.HEIGHT_MARK_MAP = 42;
-  var ESC_KEYCODE = 27;
+  window.ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
   window.fragment = document.createDocumentFragment();
   window.mapPinMain = document.querySelector('.map__pin--main');
@@ -48,8 +48,9 @@
     setPinActive(mapPins, window.indexEvent);
   };
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
       removePopup(mapPins[window.indexEvent]);
+      evt.stopPropagation();
     }
   });
   var setPinActive = function (vector, n) {
