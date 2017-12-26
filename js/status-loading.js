@@ -32,11 +32,9 @@
     });
     return div;
   };
+  window.data = [];
   var onLoad = function (data) {
     window.data = data;
-    window.data.forEach(function (item) {
-      window.fragment.appendChild(window.pin.locateAds(item));
-    });
   };
   var onError = function (message) {
     var div = drawMessageWindow(ERROR_COLOR, message, ERROR_TOP_INDENT, ERROR_INDENT, document.body);

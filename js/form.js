@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var minLengthTitle = 30;
-  var maxLengthTitle = 100;
-  var minPrice = 0;
-  var maxPrice = 1000000;
+  var MIN_LENGTH_TITLE = 30;
+  var MAX_LENGTH_TITLE = 100;
+  var MIN_PRICE = 0;
+  var MAX_PRICE = 1000000;
   var titleInput = window.form.elements.title;
   window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
@@ -119,11 +119,11 @@
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
 
   window.checkForm = function (evt, cbk) {
-    if (titleInput.value.length < minLengthTitle || titleInput.value.length > maxLengthTitle) {
+    if (titleInput.value.length < MIN_LENGTH_TITLE || titleInput.value.length > MAX_LENGTH_TITLE) {
       changeColor(titleInput);
       evt.preventDefault();
     }
-    if (priceInput.min < minPrice || priceInput.max > maxPrice || priceInput.type !== 'number' || priceInput.value === '') {
+    if (priceInput.min < MIN_PRICE || priceInput.max > MAX_PRICE || priceInput.type !== 'number' || priceInput.value === '') {
       changeColor(priceInput);
       evt.preventDefault();
     }

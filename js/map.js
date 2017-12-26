@@ -5,7 +5,7 @@
   window.HEIGHT_MARK_MAP = 42;
   window.ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
-  window.fragment = document.createDocumentFragment();
+
   window.mapPinMain = document.querySelector('.map__pin--main');
   window.form = document.querySelector('.notice__form');
   var formFieldset = window.form.querySelectorAll('fieldset');
@@ -35,11 +35,29 @@
       callback();
     }
   };
+  window.render = function (data) {
+    var fragment = document.createDocumentFragment();
+    var takePart = data.length > 5 ? 5 : data.length;
+    for (var i = 0; i <= takePart; i++) {
+      fragment.appendChild(window.pin.locateAds(data[i]));
+    }
+    return fragment;
+  };
+
+  var tempFunction = function (vector) {
+    window.pin.insertMapPin(window.render(vector)).addEventListener('click', onMapPinClick);
+    window.filterPin();
+  };
   var onMapPinMainMouseupPass = function () {
-    onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
+    // var AA = window.data;
+    // AA.length = 4;
+    // console.log(window.data)
+    // console.log(window.data.length)
+    onMapPinMainMouseup(tempFunction(window.data));
     window.mapPinMain.addEventListener('mousedown', window.pinMainHandle);
   };
   window.mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
+
   var onMapPinClick = function (evt) {
     var mapPinElements = document.querySelectorAll('.map__pin');
     mapPins = [].slice.call(mapPinElements);
