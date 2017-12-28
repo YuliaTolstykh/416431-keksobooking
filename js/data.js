@@ -48,5 +48,5 @@
     };
     ads[i].offer.address = ads[i].location.x.toString() + ', ' + ads[i].location.y.toString();
   }
-  window.data = ads;
+  window.initialData = ads;
 })();

@@ -30,8 +30,9 @@
     });
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
+      onLoad(window.initialData)
     });
-    xhr.timeout = 10000;
+    xhr.timeout = 1000;
     return xhr;
   };
   window.backend = {
