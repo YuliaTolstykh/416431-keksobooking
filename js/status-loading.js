@@ -35,7 +35,6 @@
   var onLoad = function (data) {
     window.initialData = data;
     window.data = data;
-    console.log(data);
     window.filterPin();
   };
   var onError = function (message) {

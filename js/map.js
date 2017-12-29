@@ -36,8 +36,20 @@
       callback();
     }
   };
+  var onFilterChange = function () {
+    if (map.querySelector('.popup')) {
+      removePopup(mapPins[window.indexEvent]);
+    }
+    var mapPinElements = document.querySelectorAll('.map__pin');
+    mapPins = [].slice.call(mapPinElements);
+    mapPins.shift();
+    mapPins.forEach(function (item) {
+      item.remove();
+    });
+    window.filterPin();
+    onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
+  };
   window.render = function (data) {
-    console.log(data);
     window.fragment = document.createDocumentFragment();
     var takePart = data.length >= NUMBER_SHOW_PIN ? NUMBER_SHOW_PIN : data.length - 1;
     for (var i = 0; i <= takePart; i++) {
@@ -48,24 +60,10 @@
   var onMapPinMainMouseupPass = function () {
     var formFilter = document.querySelector('.map__filters');
     onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
-    formFilter.addEventListener('change', (function () {
-      if (map.querySelector('.popup')) {
-        removePopup(mapPins[window.indexEvent]);
-      }
-      var mapPinElements = document.querySelectorAll('.map__pin');
-      mapPins = [].slice.call(mapPinElements);
-      mapPins.shift();
-      mapPins.forEach(function (item) {
-        item.remove();
-      });
-      window.filterPin();
-      onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
-      console.log(window.data);
-    }));
+    formFilter.addEventListener('change', onFilterChange);
     window.mapPinMain.addEventListener('mousedown', window.pinMainHandle);
   };
   var onMapPinClick = function (evt) {
-    console.log('Click');
     var mapPinElements = document.querySelectorAll('.map__pin');
     mapPins = [].slice.call(mapPinElements);
     window.pin.searchIndexEvent(evt, mapPins);

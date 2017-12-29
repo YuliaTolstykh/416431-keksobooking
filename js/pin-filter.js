@@ -52,26 +52,18 @@
     if (ads.offer.guests === housingFilters[3].value) {
       point += 2;
     }
-//     var pn = 0;
-//     ads.offer.features.forEach(function (itFeatures) {
-//       console.log(itFeatures);
-//       [].slice.call(housingFilters[4].elements).forEach(function (item) {
-// console.log(item);
-//         if (item.checked === itFeatures) {
-//           point += 0.5;
-//           pn += 1;
-//         }
-//         console.log('pn ' + pn)
-//       });
-//     });
-    console.log(point)
+    ads.offer.features.forEach(function (itm) {
+      var currentItem = itm;
+      var feature = [].slice.call(housingFilters[4].elements);
+      feature.forEach(function (item) {
+        if (item.checked && item.value === currentItem) {
+          point += 0.5;
+        }
+      });
+    });
     return point;
   };
   window.filterPin = function () {
-    var pxpx = window.initialData.forEach(function (p) {
-      getRating(p)
-    })
-    console.log(pxpx)
     window.data = window.initialData.sort(function (left, right) {
       return getRating(right) - getRating(left);
     });
