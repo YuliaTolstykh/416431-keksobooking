@@ -6,9 +6,6 @@
   var ERROR_TOP_INDENT = 200;
   var ERROR_INDENT = 5;
   var ERROR_COLOR = '#f0f0ea;';
-  var SAVE_TOP_INDENT = 700;
-  var SAVE_INDENT = 20;
-  var SAVE_COLOR = '#fafafa;';
   var drawMessageWindow = function (color, message, indentTop, indent, parentDiv) {
     var div = document.createElement('div');
     div.style = 'z-index: 100; margin: 0 auto; padding: 150px 0; text-align: center; background-color: ' + color;
@@ -42,8 +39,6 @@
     document.body.insertAdjacentElement('afterbegin', div);
   };
   var onSave = function () {
-    var div = drawMessageWindow(SAVE_COLOR, 'Форма успешно заполнена', SAVE_TOP_INDENT, SAVE_INDENT, window.form);
-    window.form.appendChild(div);
     window.form.reset();
     window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
     window.mapPinMain.style.left = (ORIGIN_COORD_LEFT) + '%';

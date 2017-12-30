@@ -4,7 +4,7 @@
   window.WIDTH_MARK_MAP = 32;
   window.HEIGHT_MARK_MAP = 42;
   window.ESC_KEYCODE = 27;
-  var NUMBER_SHOW_PIN = 4;
+  var NUMBER_SHOW_PIN = 5;
   var map = document.querySelector('.map');
   window.fragment = document.createDocumentFragment();
   window.mapPinMain = document.querySelector('.map__pin--main');
@@ -51,7 +51,7 @@
   };
   window.render = function (data) {
     window.fragment = document.createDocumentFragment();
-    var takePart = data.length >= NUMBER_SHOW_PIN ? NUMBER_SHOW_PIN : data.length - 1;
+    var takePart = data.length >= NUMBER_SHOW_PIN ? NUMBER_SHOW_PIN - 1 : data.length - 1;
     for (var i = 0; i <= takePart; i++) {
       window.fragment.appendChild(window.pin.locateAds(data[i]));
     }

@@ -23,11 +23,7 @@
     atr.removeAttribute('style', 'border-color: red');
   };
   titleInput.addEventListener('invalid', function () {
-    if (titleInput.validity.tooShort) {
-      changeColor(titleInput);
-    } else if (titleInput.validity.tooLong) {
-      changeColor(titleInput);
-    } else if (titleInput.validity.valueMissing) {
+    if (titleInput.validity.tooShort || titleInput.validity.tooLong || titleInput.validity.valueMissing) {
       changeColor(titleInput);
     } else {
       titleInput.setCustomValidity('');
@@ -47,11 +43,7 @@
     if (priceInput.validity.rangeUnderflow) {
       priceInput.setCustomValidity('Минимальная цена для ' + minPriceMessage + ' руб.');
       changeColor(priceInput);
-    } else if (priceInput.validity.rangeOverflow) {
-      changeColor(priceInput);
-    } else if (priceInput.validity.valueMissing) {
-      changeColor(priceInput);
-    } else if (priceInput.validity.typeMismatch) {
+    } else if (priceInput.validity.rangeOverflow || priceInput.validity.valueMissing || priceInput.validity.typeMismatch) {
       changeColor(priceInput);
     } else {
       priceInput.setCustomValidity('');
@@ -117,8 +109,7 @@
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, minPricePerNight, apartmentType, syncValueWithMin);
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
-
-  window.checkForm = function (evt, cbk) {
+  window.checkForm = function (evt, cb) {
     if (titleInput.value.length < MIN_LENGTH_TITLE || titleInput.value.length > MAX_LENGTH_TITLE) {
       changeColor(titleInput);
       evt.preventDefault();
@@ -138,6 +129,6 @@
       evt.preventDefault();
     }
     evt.preventDefault();
-    cbk();
+    cb();
   };
 })();
