@@ -17,7 +17,6 @@
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
-
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
@@ -35,7 +34,6 @@
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
