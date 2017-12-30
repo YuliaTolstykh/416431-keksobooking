@@ -9,7 +9,7 @@
   window.fragment = document.createDocumentFragment();
   window.mapPinMain = document.querySelector('.map__pin--main');
   window.form = document.querySelector('.notice__form');
-  var formFieldset = window.form.querySelectorAll('fieldset');
+  var formFieldsets = window.form.querySelectorAll('fieldset');
   var mapPins = [];
   window.indexEvent = 0;
   var addDisabled = function (arr) {
@@ -26,12 +26,12 @@
       return arr;
     });
   };
-  addDisabled(formFieldset);
+  addDisabled(formFieldsets);
 
   var onMapPinMainMouseup = function (callback) {
     map.classList.remove('map--faded');
     window.form.classList.remove('notice__form--disabled');
-    removeDisabled(formFieldset);
+    removeDisabled(formFieldsets);
     if (typeof callback === 'function') {
       callback();
     }

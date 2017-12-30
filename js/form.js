@@ -14,8 +14,8 @@
   var selectCapacity = window.form.elements.capacity;
   var selectType = window.form.elements.type;
   var minPriceMessage;
-  var minPricePerNight = [1000, 0, 5000, 10000];
-  var apartmentType = ['квартиры', 'лачуги', 'дома', 'дворца'];
+  var minPricesPerNight = [1000, 0, 5000, 10000];
+  var apartmentTypes = ['квартиры', 'лачуги', 'дома', 'дворца'];
   var changeColor = function (atr) {
     atr.setAttribute('style', 'border-color: red');
   };
@@ -58,22 +58,12 @@
     field2.options[field1.selectedIndex].selected = true;
   };
   var syncValueWithMin = function (field1, field2, value1, value2) {
-    if (field1.selectedIndex === 0) {
-      field2.value = value1[0];
-      field2.min = value1[0];
-      minPriceMessage = value2[0] + ' ' + value1[0];
-    } else if (field1.selectedIndex === 1) {
-      field2.value = value1[1];
-      field2.min = value1[1];
-      minPriceMessage = value2[1] + ' ' + value1[1];
-    } else if (field1.selectedIndex === 2) {
-      field2.value = value1[2];
-      field2.min = value1[2];
-      minPriceMessage = value2[2] + ' ' + value1[2];
-    } else if (field1.selectedIndex === 3) {
-      field2.value = value1[3];
-      field2.min = value1[3];
-      minPriceMessage = value2[3] + ' ' + value1[3];
+    for (var j = 0; j < field1.length; j++) {
+      if (field1.selectedIndex === j) {
+        field2.value = value1[j];
+        field2.min = value1[j];
+        minPriceMessage = value2[j] + ' ' + value1[j];
+      }
     }
     return minPriceMessage;
   };
@@ -107,7 +97,7 @@
   syncValueWithPersons(selectRooms, selectCapacity);
   window.synchronizeFields(selectTimein, selectTimeout, '', '', syncValues);
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
-  window.synchronizeFields(selectType, priceInput, minPricePerNight, apartmentType, syncValueWithMin);
+  window.synchronizeFields(selectType, priceInput, minPricesPerNight, apartmentTypes, syncValueWithMin);
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
   window.checkForm = function (evt, cb) {
     if (titleInput.value.length < MIN_LENGTH_TITLE || titleInput.value.length > MAX_LENGTH_TITLE) {
