@@ -9,7 +9,7 @@
     housingFilters[i] = formFilter.elements['housing' + housingPostfixes[i]];
   }
   var features = [];
-  for (var j = 0; j < housingPostfixes.length; j++) {
+  for (var j = 0; j <= housingPostfixes.length; j++) {
     features[j] = housingFilters[housingFilters.length - 1].elements['filter' + featuresPostfixes[j]];
   }
   var offerPrice = function (arg) {
@@ -32,53 +32,33 @@
     }
     return arg;
   };
-  var getRating = function (ads) {
-    var point = 0;
-    for (var n = 0; n < housingFilters.length - 1; n++) {
-      if (housingFilters[n].selectedIndex === 0) {
-        point += 0;
-      }
-    }
-    if (ads.offer.type === housingFilters[0].value) {
-      point += 5;
-    }
-    if (offerPrice(ads.offer.price) === housingFilters[1].value) {
-      point += 4;
-    }
-    if (ads.offer.rooms === +housingFilters[2].value) {
-      point += 3;
-    }
-    if (ads.offer.guests === +housingFilters[3].value) {
-      point += 2;
-    }
-    ads.offer.features.forEach(function (itm) {
-      var currentItem = itm;
-      var feature = [].slice.call(housingFilters[4].elements);
-      feature.forEach(function (item) {
-        if (item.checked && item.value === currentItem) {
-          point += 0.2;
-        }
-      });
-    });
-    ads['point'] = point;
-    return point;
-  };
   window.filterPin = function () {
-    window.data = window.initialData.sort(function (left, right) {
-      return getRating(right) - getRating(left);
+    var sameTypeAds = window.initialData.filter(function (ads) {
+      if (housingFilters[0].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.type === housingFilters[0].value;
+      }
     });
-    if (window.data.every(function (it) {
-      return it.point === 0;
-    })) {
-      window.data = window.initialData;
-    }
-    if (window.data.some(function (it) {
-      return it.point !== 0;
-    })) {
-      window.data = window.data.filter(function (it) {
-        return it.point !== 0;
-      });
-    }
+    window.data = sameTypeAds.filter(function (ads) {
+      if (housingFilters[1].selectedIndex === 0) {
+        return ads;
+      } else {
+        return offerPrice(ads.offer.price) === housingFilters[1].value;
+      }
+    }).filter(function (ads) {
+      if (housingFilters[2].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.rooms === +housingFilters[2].value;
+      }
+    }).filter(function (ads) {
+      if (housingFilters[3].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.guests === +housingFilters[3].value;
+      }
+    });
     window.render(window.data);
   };
 }());
