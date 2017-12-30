@@ -31,7 +31,6 @@
   };
   var onLoad = function (data) {
     window.initialData = data;
-    window.data = data;
     window.filterPin();
   };
   var onError = function (message) {
@@ -53,7 +52,6 @@
     window.backend.save(new FormData(window.form), onSave, onError);
   };
   window.form.addEventListener('submit', function (evt) {
-    evt = evt || event;
     window.checkForm(evt, sendForm);
   });
   window.backend.load(onLoad, onError);

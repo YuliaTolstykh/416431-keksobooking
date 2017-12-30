@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var FILTER_TYPE = 0;
+  var FILTER_PRICE = 1;
+  var FILTER_ROOMS = 2;
+  var FILTER_GUESTS = 3;
   var formFilter = document.querySelector('.map__filters');
   var offerPrice = function (arg) {
     var lowPrice = (arg <= 10000);
@@ -23,6 +27,34 @@
     return arg;
   };
   window.filterPin = function () {
+    var getTypeAds = function (ads) {
+      if (formFilter.elements[FILTER_TYPE].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.type === formFilter.elements[FILTER_TYPE].value;
+      }
+    };
+    var getPriceAds = function (ads) {
+      if (formFilter.elements[FILTER_PRICE].selectedIndex === 0) {
+        return ads;
+      } else {
+        return offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value;
+      }
+    };
+    var getRoomsAds = function (ads) {
+      if (formFilter.elements[FILTER_ROOMS].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value;
+      }
+    };
+    var getGuestsAds = function (ads) {
+      if (formFilter.elements[FILTER_GUESTS].selectedIndex === 0) {
+        return ads;
+      } else {
+        return ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value;
+      }
+    };
     var getFeaturesAds = function (ads) {
       var features = formFilter.querySelectorAll('input[type=checkbox]:checked');
       var truthFeatures = true;
@@ -37,32 +69,7 @@
       }
       return truthFeatures;
     };
-    var sameTypeAds = window.initialData.filter(function (ads) {
-      if (formFilter.elements[0].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.type === formFilter.elements[0].value;
-      }
-    });
-    var dataAds = sameTypeAds.filter(function (ads) {
-      if (formFilter.elements[1].selectedIndex === 0) {
-        return ads;
-      } else {
-        return offerPrice(ads.offer.price) === formFilter.elements[1].value;
-      }
-    }).filter(function (ads) {
-      if (formFilter.elements[2].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.rooms === +formFilter.elements[2].value;
-      }
-    }).filter(function (ads) {
-      if (formFilter.elements[3].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.guests === +formFilter.elements[3].value;
-      }
-    }).filter(getFeaturesAds);
+    var dataAds = window.initialData.filter(getTypeAds).filter(getPriceAds).filter(getRoomsAds).filter(getGuestsAds).filter(getFeaturesAds);
     window.data = dataAds;
     window.render(dataAds);
   };
