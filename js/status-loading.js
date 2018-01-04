@@ -6,6 +6,7 @@
   var ERROR_TOP_INDENT = 200;
   var ERROR_INDENT = 5;
   var ERROR_COLOR = '#f0f0ea;';
+  window.form = document.querySelector('.notice__form');
   var drawMessageWindow = function (color, message, indentTop, indent, parentDiv) {
     var div = document.createElement('div');
     div.style = 'z-index: 100; margin: 0 auto; padding: 150px 0; text-align: center; background-color: ' + color;

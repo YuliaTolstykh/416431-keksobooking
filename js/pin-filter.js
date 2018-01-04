@@ -5,11 +5,14 @@
   var FILTER_PRICE = 1;
   var FILTER_ROOMS = 2;
   var FILTER_GUESTS = 3;
+  var MAX_LOW_PRICE = 10000;
+  var MIN_HIGH_PRICE = 50000;
+  var OPTION_ANY = 0;
   var formFilter = document.querySelector('.map__filters');
   var offerPrice = function (arg) {
-    var lowPrice = (arg <= 10000);
-    var highPrice = (arg >= 50000);
-    var middlePrice = (arg >= 10000 && arg <= 50000);
+    var lowPrice = (arg < MAX_LOW_PRICE);
+    var highPrice = (arg >= MIN_HIGH_PRICE);
+    var middlePrice = (arg >= MAX_LOW_PRICE && arg < MIN_HIGH_PRICE);
     switch (!!arg) {
       case lowPrice:
         arg = 'low';
@@ -28,32 +31,16 @@
   };
   window.filterPin = function () {
     var getTypeAds = function (ads) {
-      if (formFilter.elements[FILTER_TYPE].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.type === formFilter.elements[FILTER_TYPE].value;
-      }
+      return (formFilter.elements[FILTER_TYPE].selectedIndex === OPTION_ANY) ? ads : ads.offer.type === formFilter.elements[FILTER_TYPE].value;
     };
     var getPriceAds = function (ads) {
-      if (formFilter.elements[FILTER_PRICE].selectedIndex === 0) {
-        return ads;
-      } else {
-        return offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value;
-      }
+      return (formFilter.elements[FILTER_PRICE].selectedIndex === OPTION_ANY) ? ads : offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value;
     };
     var getRoomsAds = function (ads) {
-      if (formFilter.elements[FILTER_ROOMS].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value;
-      }
+      return (formFilter.elements[FILTER_ROOMS].selectedIndex === OPTION_ANY) ? ads : ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value;
     };
     var getGuestsAds = function (ads) {
-      if (formFilter.elements[FILTER_GUESTS].selectedIndex === 0) {
-        return ads;
-      } else {
-        return ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value;
-      }
+      return (formFilter.elements[FILTER_GUESTS].selectedIndex === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value;
     };
     var getFeaturesAds = function (ads) {
       var features = formFilter.querySelectorAll('input[type=checkbox]:checked');
