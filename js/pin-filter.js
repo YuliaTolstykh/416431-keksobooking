@@ -40,7 +40,7 @@
       return (formFilter.elements[FILTER_ROOMS].selectedIndex === OPTION_ANY) ? ads : ads.offer.rooms >= +formFilter.elements[FILTER_ROOMS].value;
     };
     var sortRooms = function (left, right) {
-      return (formFilter.elements[FILTER_ROOMS].selectedIndex > 0) ? left.offer.rooms - right.offer.rooms : false;
+      return (formFilter.elements[FILTER_ROOMS].selectedIndex > OPTION_ANY) ? left.offer.rooms - right.offer.rooms : false;
     };
     var getGuestsAds = function (ads) {
       return (formFilter.elements[FILTER_GUESTS].selectedIndex === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value;

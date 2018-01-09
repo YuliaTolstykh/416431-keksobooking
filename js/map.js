@@ -64,6 +64,12 @@
       });
       window.mapPinMain.addEventListener('mousedown', window.onPinMainMousedown);
     }
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        removePopup(mapPins[window.indexEvent]);
+        evt.stopPropagation();
+      }
+    });
   };
   var onMapPinClick = function (evt) {
     window.indexEvent = 0;
@@ -73,12 +79,6 @@
     removePinActive(mapPins, window.indexEvent);
     setPinActive(mapPins, window.indexEvent);
   };
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
-      removePopup(mapPins[window.indexEvent]);
-      evt.stopPropagation();
-    }
-  });
   var setPinActive = function (vector, n) {
     if (n !== 0 && vector[n].classList.contains('map__pin--active') !== true) {
       vector[n].classList.add('map__pin--active');

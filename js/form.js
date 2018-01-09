@@ -13,7 +13,6 @@
     [0, 1, 2],
     [3]
   ];
-  var BEFORE_CHANGE_MESSAGE = 'квартиры 1000';
   var titleInput = window.form.elements.title;
   window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
@@ -22,7 +21,7 @@
   var selectRooms = window.form.elements.rooms;
   var selectCapacity = window.form.elements.capacity;
   var selectType = window.form.elements.type;
-  var minPriceMessage = BEFORE_CHANGE_MESSAGE;
+  var minPriceMessage = 'квартиры 1000';
   var changeColor = function (atr) {
     atr.setAttribute('style', 'border-color: red');
   };
@@ -87,6 +86,7 @@
         field2.value = value1[j];
         field2.min = value1[j];
         minPriceMessage = value2[j] + ' ' + value1[j];
+        break;
       }
     }
     return minPriceMessage;
