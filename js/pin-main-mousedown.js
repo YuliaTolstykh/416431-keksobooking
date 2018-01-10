@@ -5,7 +5,7 @@
   var MAX_X = 1100;
   var MIN_Y = 100;
   var MAX_Y = 500;
-  window.pinMainHandle = function (evt) {
+  window.onPinMainMousedown = function (evt) {
     evt.preventDefault();
     var startCoords = {
       x: evt.clientX,

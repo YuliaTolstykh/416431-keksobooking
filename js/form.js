@@ -5,6 +5,14 @@
   var MAX_LENGTH_TITLE = 100;
   var MIN_PRICE = 0;
   var MAX_PRICE = 1000000;
+  var MIN_PRICES_PER_NIGHT = [1000, 0, 5000, 10000];
+  var APARTMENT_TYPES = ['квартиры', 'лачуги', 'дома', 'дворца'];
+  var ACTIVE_OPTIONS = [
+    [2],
+    [1, 2],
+    [0, 1, 2],
+    [3]
+  ];
   var titleInput = window.form.elements.title;
   window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
@@ -13,9 +21,7 @@
   var selectRooms = window.form.elements.rooms;
   var selectCapacity = window.form.elements.capacity;
   var selectType = window.form.elements.type;
-  var minPriceMessage;
-  var minPricesPerNight = [1000, 0, 5000, 10000];
-  var apartmentTypes = ['квартиры', 'лачуги', 'дома', 'дворца'];
+  var minPriceMessage = 'квартиры 1000';
   var changeColor = function (atr) {
     atr.setAttribute('style', 'border-color: red');
   };
@@ -27,6 +33,11 @@
       changeColor(titleInput);
     } else {
       titleInput.setCustomValidity('');
+      returnColor(titleInput);
+    }
+  });
+  titleInput.addEventListener('input', function () {
+    if (titleInput.validity.valid) {
       returnColor(titleInput);
     }
   });
@@ -50,9 +61,21 @@
       returnColor(priceInput);
     }
   });
+  priceInput.addEventListener('input', function () {
+    if (priceInput.validity.valid) {
+      returnColor(priceInput);
+    }
+  });
   window.mapPinMain.addEventListener('click', function () {
-    returnColor(titleInput);
-    returnColor(priceInput);
+    if (titleInput.validity.valid) {
+      returnColor(titleInput);
+    }
+    if (priceInput.validity.valid) {
+      returnColor(priceInput);
+    }
+    if (window.addressInput.value) {
+      returnColor(window.addressInput);
+    }
   });
   var syncValues = function (field1, field2) {
     field2.options[field1.selectedIndex].selected = true;
@@ -63,41 +86,28 @@
         field2.value = value1[j];
         field2.min = value1[j];
         minPriceMessage = value2[j] + ' ' + value1[j];
+        break;
       }
     }
     return minPriceMessage;
   };
   var syncValueWithPersons = function (field1, field2) {
-    if (field1.selectedIndex === 0) {
-      field2.options[2].selected = true;
-      field2.options[0].setAttribute('disabled', 'disabled');
-      field2.options[1].setAttribute('disabled', 'disabled');
-      field2.options[2].removeAttribute('disabled', 'disabled');
-      field2.options[3].setAttribute('disabled', 'disabled');
-    } else if (field1.selectedIndex === 1) {
-      field2.options[1].selected = true;
-      field2.options[0].setAttribute('disabled', 'disabled');
-      field2.options[1].removeAttribute('disabled', 'disabled');
-      field2.options[2].removeAttribute('disabled', 'disabled');
-      field2.options[3].setAttribute('disabled', 'disabled');
-    } else if (field1.selectedIndex === 2) {
-      field2.options[0].selected = true;
-      field2.options[0].removeAttribute('disabled', 'disabled');
-      field2.options[1].removeAttribute('disabled', 'disabled');
-      field2.options[2].removeAttribute('disabled', 'disabled');
-      field2.options[3].setAttribute('disabled', 'disabled');
-    } else if (field1.selectedIndex === 3) {
-      field2.options[3].selected = true;
-      field2.options[0].setAttribute('disabled', 'disabled');
-      field2.options[1].setAttribute('disabled', 'disabled');
-      field2.options[2].setAttribute('disabled', 'disabled');
-      field2.options[3].removeAttribute('disabled', 'disabled');
+    for (var i = 0; i < field2.length; i++) {
+      field2.options[i].setAttribute('disabled', 'disabled');
+    }
+    for (var j = 0; j < field2.length; j++) {
+      if (field1.selectedIndex === j) {
+        field2.options[ACTIVE_OPTIONS[j][0]].selected = true;
+        for (var n = 0; n < ACTIVE_OPTIONS[j].length; n++) {
+          field2.options[ACTIVE_OPTIONS[j][n]].removeAttribute('disabled', 'disabled');
+        }
+      }
     }
   };
   syncValueWithPersons(selectRooms, selectCapacity);
   window.synchronizeFields(selectTimein, selectTimeout, '', '', syncValues);
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
-  window.synchronizeFields(selectType, priceInput, minPricesPerNight, apartmentTypes, syncValueWithMin);
+  window.synchronizeFields(selectType, priceInput, MIN_PRICES_PER_NIGHT, APARTMENT_TYPES, syncValueWithMin);
   window.synchronizeFields(selectRooms, selectCapacity, '', '', syncValueWithPersons);
   window.checkForm = function (evt, cb) {
     if (titleInput.value.length < MIN_LENGTH_TITLE || titleInput.value.length > MAX_LENGTH_TITLE) {

@@ -5,12 +5,15 @@
   window.pin = {
     locateAds: function (ad) {
       var similarAds = adsItem.cloneNode(true);
+      similarAds.classList.remove('map__pin--main');
+      var svg = similarAds.querySelector('svg');
+      similarAds.removeChild(svg);
       var avatar = similarAds.querySelector('img');
       avatar.setAttribute('src', ad.author.avatar);
       var positionX = ad.location.x - window.WIDTH_MARK_MAP;
       var positionY = ad.location.y - window.HEIGHT_MARK_MAP;
       var position = 'left: ' + positionX + 'px; top: ' + positionY + 'px;';
-      similarAds.setAttribute('style', position);
+      similarAds.setAttribute('style', position + 'width: 38px; height: 48px;');
       return similarAds;
     },
     insertMapPin: function (fragment) {
@@ -23,6 +26,7 @@
         for (var index = 0; index < mapPins.length; index++) {
           if (mapPins[index] === target || mapPins[index] === target.parentElement) {
             window.indexEvent = index;
+            break;
           }
         }
       }
