@@ -84,9 +84,11 @@
       vector[n].classList.add('map__pin--active');
       map.appendChild(window.card.createAdsElement(window.data[n - 1]));
       var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('click', function () {
+      var onPopupCloseClick = function () {
         removePopup(vector[n]);
-      });
+        popupClose.removeEventListener('click', onPopupCloseClick);
+      };
+      popupClose.addEventListener('click', onPopupCloseClick);
     }
   };
   var removePinActive = function (vector, n) {

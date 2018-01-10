@@ -104,6 +104,7 @@
       }
     }
   };
+  syncValueWithPersons(selectRooms, selectCapacity);
   window.synchronizeFields(selectTimein, selectTimeout, '', '', syncValues);
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, MIN_PRICES_PER_NIGHT, APARTMENT_TYPES, syncValueWithMin);
