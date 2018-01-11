@@ -40,9 +40,9 @@
   };
   var onSave = function () {
     window.form.reset();
-    window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
-    window.mapPinMain.style.left = (ORIGIN_COORD_LEFT) + '%';
-    window.addressInput.setAttribute('value', '');
+    // window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
+    // window.mapPinMain.style.left = (ORIGIN_COORD_LEFT) + '%';
+    // window.addressInput.setAttribute('value', '');
     window.form.querySelectorAll('input').forEach(function (item) {
       if (item.getAttribute('style', 'border-color: red')) {
         item.removeAttribute('style', 'border-color: red');

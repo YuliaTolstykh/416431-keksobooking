@@ -7,7 +7,7 @@
   var FILTER_GUESTS = 3;
   var MAX_LOW_PRICE = 10000;
   var MIN_HIGH_PRICE = 50000;
-  var OPTION_ANY = 0;
+  var OPTION_ANY = 'any';
   var formFilter = document.querySelector('.map__filters');
   var offerPrice = function (arg) {
     var lowPrice = (arg < MAX_LOW_PRICE);
@@ -30,21 +30,6 @@
     return arg;
   };
   window.filterPin = function () {
-    var getTypeAds = function (ads) {
-      return (formFilter.elements[FILTER_TYPE].selectedIndex === OPTION_ANY) ? ads : ads.offer.type === formFilter.elements[FILTER_TYPE].value;
-    };
-    var getPriceAds = function (ads) {
-      return (formFilter.elements[FILTER_PRICE].selectedIndex === OPTION_ANY) ? ads : offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value;
-    };
-    var getRoomsAds = function (ads) {
-      return (formFilter.elements[FILTER_ROOMS].selectedIndex === OPTION_ANY) ? ads : ads.offer.rooms >= +formFilter.elements[FILTER_ROOMS].value;
-    };
-    var sortRooms = function (left, right) {
-      return (formFilter.elements[FILTER_ROOMS].selectedIndex > OPTION_ANY) ? left.offer.rooms - right.offer.rooms : false;
-    };
-    var getGuestsAds = function (ads) {
-      return (formFilter.elements[FILTER_GUESTS].selectedIndex === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value;
-    };
     var getFeaturesAds = function (ads) {
       var features = formFilter.querySelectorAll('input[type=checkbox]:checked');
       var truthFeatures = true;
@@ -59,7 +44,14 @@
       }
       return truthFeatures;
     };
-    var dataAds = window.initialData.filter(getTypeAds).filter(getPriceAds).filter(getRoomsAds).sort(sortRooms).filter(getGuestsAds).filter(getFeaturesAds);
+    var getFilter = function (ads) {
+      return ((formFilter.elements[FILTER_TYPE].value === OPTION_ANY) ? ads : ads.offer.type === formFilter.elements[FILTER_TYPE].value)
+      && ((formFilter.elements[FILTER_PRICE].value === OPTION_ANY) ? ads : offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value)
+      && ((formFilter.elements[FILTER_ROOMS].value === OPTION_ANY) ? ads : ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value)
+      && ((formFilter.elements[FILTER_GUESTS].value === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value)
+      && getFeaturesAds(ads);
+    };
+    var dataAds = window.initialData.filter(getFilter);
     window.data = dataAds;
     window.render(dataAds);
   };

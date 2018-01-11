@@ -30,6 +30,8 @@
     map.classList.remove('map--faded');
     window.form.classList.remove('notice__form--disabled');
     removeDisabled(formFieldsets);
+    window.mapPinMain.removeEventListener('mouseup', onMapPinMainMouseupPass);
+    window.mapPinMain.removeEventListener('keydown', onMapPinMainKeydown);
     if (typeof callback === 'function') {
       callback();
     }
@@ -45,7 +47,7 @@
       item.remove();
     });
     window.filterPin();
-    onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
+    updateMapPin();
   };
   window.render = function (data) {
     window.fragment = document.createDocumentFragment();
@@ -55,10 +57,13 @@
     }
     return window.fragment;
   };
+  var updateMapPin = function () {
+    window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick);
+  };
   var onMapPinMainMouseupPass = function () {
     if (window.initialData) {
       var formFilter = document.querySelector('.map__filters');
-      onMapPinMainMouseup(window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick));
+      onMapPinMainMouseup(updateMapPin);
       formFilter.addEventListener('change', function () {
         window.debounce(onFilterChange);
       });
@@ -106,10 +111,11 @@
       map.removeChild(popup);
     }
   };
-  window.mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
-  window.mapPinMain.addEventListener('keydown', function (evt) {
+  var onMapPinMainKeydown = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
       onMapPinMainMouseupPass();
     }
-  });
+  };
+  window.mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
+  window.mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
 }());
