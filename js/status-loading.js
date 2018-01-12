@@ -28,8 +28,8 @@
     });
     return div;
   };
-  var onLoad = function (data) {
-    window.initialData = data;
+  var onLoad = function (ads) {
+    window.initialAds = ads;
     window.filterPin();
   };
   var onError = function (message) {

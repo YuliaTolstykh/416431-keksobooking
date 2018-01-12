@@ -15,14 +15,14 @@
     }
     return offerType;
   };
-  var getTextHTML = function (arr) {
-    var textHTML = [];
+  var getTextHTML = function (items) {
+    var textsHTML = [];
     var i = 0;
-    while (i < arr.length) {
-      textHTML[i] = '<li class="feature feature--' + arr[i] + '"></li>';
+    while (i < items.length) {
+      textsHTML[i] = '<li class="feature feature--' + items[i] + '"></li>';
       i++;
     }
-    return textHTML;
+    return textsHTML;
   };
   var similarAdsTemplate = document.querySelector('template').content;
   window.card = {

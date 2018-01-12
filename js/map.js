@@ -12,14 +12,14 @@
   window.mapPinMain = document.querySelector('.map__pin--main');
   var formFieldsets = window.form.querySelectorAll('fieldset');
   var mapPins = [];
-  var addDisabled = function (arr) {
-    arr.forEach(function (item) {
+  var addDisabled = function (fieldsets) {
+    fieldsets.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
     });
     window.mapPinMain.setAttribute('tabindex', '1');
   };
-  var removeDisabled = function (arr) {
-    arr.forEach(function (item) {
+  var removeDisabled = function (fieldsets) {
+    fieldsets.forEach(function (item) {
       if (item.hasAttribute('disabled')) {
         item.removeAttribute('disabled');
       }
@@ -49,11 +49,11 @@
     window.filterPin();
     updateMapPin();
   };
-  window.render = function (data) {
+  window.render = function (ads) {
     window.fragment = document.createDocumentFragment();
-    var takePart = data.length >= NUMBER_SHOW_PIN ? NUMBER_SHOW_PIN - 1 : data.length - 1;
+    var takePart = ads.length >= NUMBER_SHOW_PIN ? NUMBER_SHOW_PIN - 1 : ads.length - 1;
     for (var i = 0; i <= takePart; i++) {
-      window.fragment.appendChild(window.pin.locateAds(data[i]));
+      window.fragment.appendChild(window.pin.locateAds(ads[i]));
     }
     return window.fragment;
   };
@@ -61,7 +61,7 @@
     window.pin.insertMapPin(window.fragment).addEventListener('click', onMapPinClick);
   };
   var onMapPinMainMouseupPass = function () {
-    if (window.initialData) {
+    if (window.initialAds) {
       var formFilter = document.querySelector('.map__filters');
       onMapPinMainMouseup(updateMapPin);
       formFilter.addEventListener('change', function () {
@@ -84,22 +84,22 @@
     removePinActive(mapPins, window.indexEvent);
     setPinActive(mapPins, window.indexEvent);
   };
-  var setPinActive = function (vector, n) {
-    if (n !== 0 && vector[n].classList.contains('map__pin--active') !== true) {
-      vector[n].classList.add('map__pin--active');
-      map.appendChild(window.card.createAdsElement(window.data[n - 1]));
+  var setPinActive = function (pins, n) {
+    if (n !== 0 && pins[n].classList.contains('map__pin--active') !== true) {
+      pins[n].classList.add('map__pin--active');
+      map.appendChild(window.card.createAdsElement(window.ads[n - 1]));
       var popupClose = document.querySelector('.popup__close');
       var onPopupCloseClick = function () {
-        removePopup(vector[n]);
+        removePopup(pins[n]);
         popupClose.removeEventListener('click', onPopupCloseClick);
       };
       popupClose.addEventListener('click', onPopupCloseClick);
     }
   };
-  var removePinActive = function (vector, n) {
-    for (var index = 0; index < vector.length; index++) {
-      if (index !== n && vector[index].classList.contains('map__pin--active')) {
-        removePopup(vector[index]);
+  var removePinActive = function (pins, n) {
+    for (var index = 0; index < pins.length; index++) {
+      if (index !== n && pins[index].classList.contains('map__pin--active')) {
+        removePopup(pins[index]);
         break;
       }
     }

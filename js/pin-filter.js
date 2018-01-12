@@ -51,8 +51,8 @@
       && ((formFilter.elements[FILTER_GUESTS].value === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value)
       && getFeaturesAds(ads);
     };
-    var dataAds = window.initialData.filter(getFilter);
-    window.data = dataAds;
+    var dataAds = window.initialAds.filter(getFilter);
+    window.ads = dataAds;
     window.render(dataAds);
   };
 }());
