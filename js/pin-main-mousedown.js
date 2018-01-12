@@ -24,7 +24,7 @@
       var pinMainShiftedX = window.mapPinMain.offsetLeft - shift.x;
       var pinMainShiftedY = window.mapPinMain.offsetTop - shift.y;
       var arrowPositionX = pinMainShiftedX;
-      var arrowPositionY = pinMainShiftedY + window.HEIGHT_MARK_MAP;
+      var arrowPositionY = pinMainShiftedY;
       if (arrowPositionX >= MIN_X && arrowPositionX <= MAX_X && arrowPositionY >= MIN_Y && arrowPositionY <= MAX_Y) {
         window.mapPinMain.style.left = (pinMainShiftedX) + 'px';
         window.mapPinMain.style.top = (pinMainShiftedY) + 'px';
