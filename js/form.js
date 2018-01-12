@@ -13,6 +13,8 @@
     [0, 1, 2],
     [3]
   ];
+  var INITIAL_OPTION_ROOMS = 0;
+  var INITIAL_OPTION_CAPACITY = 2;
   var titleInput = window.form.elements.title;
   window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
@@ -104,7 +106,15 @@
       }
     }
   };
-  syncValueWithPersons(selectRooms, selectCapacity);
+  var syncInitialValueWithPersons = function (field1, field2) {
+    for (var i = 0; i < field2.length; i++) {
+      field2.options[i].setAttribute('disabled', 'disabled');
+    }
+    field1.options[INITIAL_OPTION_ROOMS].selected = true;
+    field2.options[INITIAL_OPTION_CAPACITY].removeAttribute('disabled', 'disabled');
+    field2.options[INITIAL_OPTION_CAPACITY].selected = true;
+  };
+  syncInitialValueWithPersons(selectRooms, selectCapacity);
   window.synchronizeFields(selectTimein, selectTimeout, '', '', syncValues);
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, MIN_PRICES_PER_NIGHT, APARTMENT_TYPES, syncValueWithMin);
@@ -128,8 +138,12 @@
       window.addressInput.setAttribute('readonly', 'readonly');
       evt.preventDefault();
     }
-    syncValueWithPersons(selectRooms, selectCapacity);
     evt.preventDefault();
     cb();
+    syncValueWithPersons(selectRooms, selectCapacity);
   };
+  var onFormReset = function () {
+    syncInitialValueWithPersons(selectRooms, selectCapacity);
+  };
+  window.form.addEventListener('reset', onFormReset);
 })();
