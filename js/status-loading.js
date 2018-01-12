@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var ORIGIN_COORD_TOP = 375;
-  var ORIGIN_COORD_LEFT = 50;
   var ERROR_TOP_INDENT = 200;
   var ERROR_INDENT = 5;
   var ERROR_COLOR = '#f0f0ea;';
@@ -40,9 +38,6 @@
   };
   var onSave = function () {
     window.form.reset();
-    // window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
-    // window.mapPinMain.style.left = (ORIGIN_COORD_LEFT) + '%';
-    // window.addressInput.setAttribute('value', '');
     window.form.querySelectorAll('input').forEach(function (item) {
       if (item.getAttribute('style', 'border-color: red')) {
         item.removeAttribute('style', 'border-color: red');

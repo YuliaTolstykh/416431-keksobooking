@@ -128,6 +128,7 @@
       window.addressInput.setAttribute('readonly', 'readonly');
       evt.preventDefault();
     }
+    syncValueWithPersons(selectRooms, selectCapacity);
     evt.preventDefault();
     cb();
   };
