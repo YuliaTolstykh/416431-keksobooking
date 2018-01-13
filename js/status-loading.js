@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var ORIGIN_COORD_TOP = 375;
-  var ORIGIN_COORD_LEFT = 50;
   var ERROR_TOP_INDENT = 200;
   var ERROR_INDENT = 5;
   var ERROR_COLOR = '#f0f0ea;';
@@ -16,22 +14,26 @@
     div.style.right = indent + '%';
     div.style.fontSize = '30px';
     div.textContent = message;
-    div.addEventListener('click', function () {
-      removeDiv(div);
-    });
     var removeDiv = function () {
       parentDiv.removeChild(div);
+      document.body.removeEventListener('keydown', onDivKeydown);
+      div.removeEventListener('click', onDivClick);
     };
-    document.body.addEventListener('keydown', function (evt) {
+    var onDivClick = function () {
+      removeDiv(div);
+    };
+    var onDivKeydown = function (evt) {
       if (evt.keyCode === window.ESC_KEYCODE) {
         removeDiv(div);
         evt.stopPropagation();
       }
-    });
+    };
+    div.addEventListener('click', onDivClick);
+    document.body.addEventListener('keydown', onDivKeydown);
     return div;
   };
-  var onLoad = function (data) {
-    window.initialData = data;
+  var onLoad = function (ads) {
+    window.initialAds = ads;
     window.filterPin();
   };
   var onError = function (message) {
@@ -40,9 +42,6 @@
   };
   var onSave = function () {
     window.form.reset();
-    window.mapPinMain.style.top = (ORIGIN_COORD_TOP) + 'px';
-    window.mapPinMain.style.left = (ORIGIN_COORD_LEFT) + '%';
-    window.addressInput.setAttribute('value', '');
     window.form.querySelectorAll('input').forEach(function (item) {
       if (item.getAttribute('style', 'border-color: red')) {
         item.removeAttribute('style', 'border-color: red');

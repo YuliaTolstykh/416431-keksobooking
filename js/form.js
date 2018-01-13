@@ -13,6 +13,8 @@
     [0, 1, 2],
     [3]
   ];
+  var INITIAL_OPTION_ROOMS = 0;
+  var INITIAL_OPTION_CAPACITY = 2;
   var titleInput = window.form.elements.title;
   window.addressInput = window.form.elements.address;
   var priceInput = window.form.elements.price;
@@ -80,31 +82,39 @@
   var syncValues = function (field1, field2) {
     field2.options[field1.selectedIndex].selected = true;
   };
-  var syncValueWithMin = function (field1, field2, value1, value2) {
-    for (var j = 0; j < field1.length; j++) {
-      if (field1.selectedIndex === j) {
-        field2.value = value1[j];
-        field2.min = value1[j];
-        minPriceMessage = value2[j] + ' ' + value1[j];
+  var syncValueWithMin = function (fields1, fields2, values1, values2) {
+    for (var j = 0; j < fields1.length; j++) {
+      if (fields1.selectedIndex === j) {
+        fields2.value = values1[j];
+        fields2.min = values1[j];
+        minPriceMessage = values2[j] + ' ' + values1[j];
         break;
       }
     }
     return minPriceMessage;
   };
-  var syncValueWithPersons = function (field1, field2) {
-    for (var i = 0; i < field2.length; i++) {
-      field2.options[i].setAttribute('disabled', 'disabled');
+  var syncValueWithPersons = function (fields1, fields2) {
+    for (var i = 0; i < fields2.length; i++) {
+      fields2.options[i].setAttribute('disabled', 'disabled');
     }
-    for (var j = 0; j < field2.length; j++) {
-      if (field1.selectedIndex === j) {
-        field2.options[ACTIVE_OPTIONS[j][0]].selected = true;
+    for (var j = 0; j < fields2.length; j++) {
+      if (fields1.selectedIndex === j) {
+        fields2.options[ACTIVE_OPTIONS[j][0]].selected = true;
         for (var n = 0; n < ACTIVE_OPTIONS[j].length; n++) {
-          field2.options[ACTIVE_OPTIONS[j][n]].removeAttribute('disabled', 'disabled');
+          fields2.options[ACTIVE_OPTIONS[j][n]].removeAttribute('disabled', 'disabled');
         }
       }
     }
   };
-  syncValueWithPersons(selectRooms, selectCapacity);
+  var syncInitialValueWithPersons = function (field1, field2) {
+    for (var i = 0; i < field2.length; i++) {
+      field2.options[i].setAttribute('disabled', 'disabled');
+    }
+    field1.options[INITIAL_OPTION_ROOMS].selected = true;
+    field2.options[INITIAL_OPTION_CAPACITY].removeAttribute('disabled', 'disabled');
+    field2.options[INITIAL_OPTION_CAPACITY].selected = true;
+  };
+  syncInitialValueWithPersons(selectRooms, selectCapacity);
   window.synchronizeFields(selectTimein, selectTimeout, '', '', syncValues);
   window.synchronizeFields(selectTimeout, selectTimein, '', '', syncValues);
   window.synchronizeFields(selectType, priceInput, MIN_PRICES_PER_NIGHT, APARTMENT_TYPES, syncValueWithMin);
@@ -130,5 +140,10 @@
     }
     evt.preventDefault();
     cb();
+    syncValueWithPersons(selectRooms, selectCapacity);
   };
+  var onFormReset = function () {
+    syncInitialValueWithPersons(selectRooms, selectCapacity);
+  };
+  window.form.addEventListener('reset', onFormReset);
 })();
