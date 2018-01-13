@@ -41,7 +41,7 @@
   window.backend = {
     load: function (onLoad, onError) {
       var xhr = setup(onLoad, onError);
-      xhr.open('GET', 'https://1510.dump.academy/keksobooking/data');
+      xhr.open('GET', 'https://1510.dump.academy/keksobooking/d ata');
       xhr.send();
     },
     save: function (data, onSave, onError) {

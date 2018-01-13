@@ -14,18 +14,22 @@
     div.style.right = indent + '%';
     div.style.fontSize = '30px';
     div.textContent = message;
-    div.addEventListener('click', function () {
-      removeDiv(div);
-    });
     var removeDiv = function () {
       parentDiv.removeChild(div);
+      document.body.removeEventListener('keydown', onDivKeydown);
+      div.removeEventListener('click', onDivClick);
     };
-    document.body.addEventListener('keydown', function (evt) {
+    var onDivClick = function () {
+      removeDiv(div);
+    };
+    var onDivKeydown = function (evt) {
       if (evt.keyCode === window.ESC_KEYCODE) {
         removeDiv(div);
         evt.stopPropagation();
       }
-    });
+    };
+    div.addEventListener('click', onDivClick);
+    document.body.addEventListener('keydown', onDivKeydown);
     return div;
   };
   var onLoad = function (ads) {
