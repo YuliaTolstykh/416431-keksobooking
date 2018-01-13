@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  window.WIDTH_MARK_MAP = 32;
-  window.HEIGHT_MARK_MAP = 42;
   window.ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var SPACEBAR_KEYCODE = 32;

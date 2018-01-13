@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var WIDTH_MARK_MAP = 23;
+  var HEIGHT_MARK_MAP = 62;
   var adsItem = document.querySelector('.map__pin');
   window.pin = {
     locateAds: function (ad) {
@@ -10,10 +12,10 @@
       similarAds.removeChild(svg);
       var avatar = similarAds.querySelector('img');
       avatar.setAttribute('src', ad.author.avatar);
-      var positionX = ad.location.x - window.WIDTH_MARK_MAP;
-      var positionY = ad.location.y - window.HEIGHT_MARK_MAP;
-      var position = 'left: ' + positionX + 'px; top: ' + positionY + 'px;';
-      similarAds.setAttribute('style', position + 'width: 38px; height: 48px;');
+      var positionX = ad.location.x - WIDTH_MARK_MAP;
+      var positionY = ad.location.y - HEIGHT_MARK_MAP;
+      var position = 'left: ' + positionX + 'px; top: ' + positionY + 'px; ';
+      similarAds.setAttribute('style', position + 'width: 38px; height: 48px; transform: translate(-60%, -40%);');
       return similarAds;
     },
     insertMapPin: function (fragment) {
