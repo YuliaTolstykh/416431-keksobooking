@@ -65,14 +65,7 @@
       formFilter.addEventListener('change', function () {
         window.debounce(onFilterChange);
       });
-      window.mapPinMain.addEventListener('mousedown', window.onPinMainMousedown);
     }
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
-        removePopup(mapPins[window.indexEvent]);
-        evt.stopPropagation();
-      }
-    });
   };
   var onMapPinClick = function (evt) {
     window.indexEvent = 0;
@@ -81,6 +74,13 @@
     window.pin.searchIndexEvent(evt, mapPins);
     removePinActive(mapPins, window.indexEvent);
     setPinActive(mapPins, window.indexEvent);
+  };
+  var onPopupKeydown = function (evt) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
+      removePopup(mapPins[window.indexEvent]);
+      evt.stopPropagation();
+      document.removeEventListener('keydown', onPopupKeydown);
+    }
   };
   var setPinActive = function (pins, n) {
     if (n !== 0 && pins[n].classList.contains('map__pin--active') !== true) {
@@ -91,6 +91,7 @@
         removePopup(pins[n]);
         popupClose.removeEventListener('click', onPopupCloseClick);
       };
+      document.addEventListener('keydown', onPopupKeydown);
       popupClose.addEventListener('click', onPopupCloseClick);
     }
   };
@@ -114,6 +115,7 @@
       onMapPinMainMouseupPass();
     }
   };
+  window.mapPinMain.addEventListener('mousedown', window.onPinMainMousedown);
   window.mapPinMain.addEventListener('mouseup', onMapPinMainMouseupPass);
   window.mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
 }());

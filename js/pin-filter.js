@@ -29,28 +29,28 @@
     }
     return arg;
   };
+  var getFeaturesAds = function (ads) {
+    var features = formFilter.querySelectorAll('input[type=checkbox]:checked');
+    var truthFeatures = true;
+    if (features.length === 0) {
+      truthFeatures = true;
+    } else {
+      features.forEach(function (it) {
+        if (ads.offer.features.indexOf(it.value) === -1) {
+          truthFeatures = false;
+        }
+      });
+    }
+    return truthFeatures;
+  };
+  var getFilter = function (ads) {
+    return ((formFilter.elements[FILTER_TYPE].value === OPTION_ANY) ? ads : ads.offer.type === formFilter.elements[FILTER_TYPE].value)
+    && ((formFilter.elements[FILTER_PRICE].value === OPTION_ANY) ? ads : offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value)
+    && ((formFilter.elements[FILTER_ROOMS].value === OPTION_ANY) ? ads : ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value)
+    && ((formFilter.elements[FILTER_GUESTS].value === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value)
+    && getFeaturesAds(ads);
+  };
   window.filterPin = function () {
-    var getFeaturesAds = function (ads) {
-      var features = formFilter.querySelectorAll('input[type=checkbox]:checked');
-      var truthFeatures = true;
-      if (features.length === 0) {
-        truthFeatures = true;
-      } else {
-        features.forEach(function (it) {
-          if (ads.offer.features.indexOf(it.value) === -1) {
-            truthFeatures = false;
-          }
-        });
-      }
-      return truthFeatures;
-    };
-    var getFilter = function (ads) {
-      return ((formFilter.elements[FILTER_TYPE].value === OPTION_ANY) ? ads : ads.offer.type === formFilter.elements[FILTER_TYPE].value)
-      && ((formFilter.elements[FILTER_PRICE].value === OPTION_ANY) ? ads : offerPrice(ads.offer.price) === formFilter.elements[FILTER_PRICE].value)
-      && ((formFilter.elements[FILTER_ROOMS].value === OPTION_ANY) ? ads : ads.offer.rooms === +formFilter.elements[FILTER_ROOMS].value)
-      && ((formFilter.elements[FILTER_GUESTS].value === OPTION_ANY) ? ads : ads.offer.guests === +formFilter.elements[FILTER_GUESTS].value)
-      && getFeaturesAds(ads);
-    };
     var dataAds = window.initialAds.filter(getFilter);
     window.ads = dataAds;
     window.render(dataAds);
